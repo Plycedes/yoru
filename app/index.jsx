@@ -13,7 +13,7 @@ export default function App() {
                 <View className="w-full mt-10 items-center min-h-[85vh] px-4">
                     <Image
                         source={images.logo2}
-                        className="w-[150px] h-[40px]"
+                        className="w-[150px] h-[47px]"
                         resizeMode="contian"
                     />
                     <Image
