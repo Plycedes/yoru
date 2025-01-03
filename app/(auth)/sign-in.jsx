@@ -4,12 +4,16 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
+import CustomButtom from "../../components/CustomButton";
 
 const SignIn = () => {
     const [form, setForm] = useState({
         email: "",
         password: "",
     });
+    const [submitting, isSubmitting] = useState(false);
+
+    const submit = () => {};
 
     return (
         <SafeAreaView className="bg-primary h-full">
@@ -36,6 +40,18 @@ const SignIn = () => {
                         handleChangeText={(e) => setForm({ ...form, email: e })}
                         otherStyles="mt-7"
                         keyboardType="email-address"
+                    />
+                    <FormField
+                        title="Password"
+                        value={form.password}
+                        handleChangeText={(e) => setForm({ ...form, password: e })}
+                        otherStyles="mt-7"
+                    />
+                    <CustomButtom
+                        title="Sign In"
+                        handlePress={submit}
+                        containerStyles="mt-7"
+                        //isLoading={isSubmitting}
                     />
                 </View>
             </ScrollView>
