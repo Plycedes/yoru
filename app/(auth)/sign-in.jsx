@@ -1,6 +1,7 @@
 import { ScrollView, Image, Text, View } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { Link } from "expo-router";
 
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
@@ -19,7 +20,7 @@ const SignIn = () => {
         <SafeAreaView className="bg-primary h-full">
             <ScrollView>
                 <View
-                    className="w-full justify-center h-full
+                    className="w-full justify-center min-h-[90vh]
                 px-4 my-6"
                 >
                     <Image
@@ -51,8 +52,16 @@ const SignIn = () => {
                         title="Sign In"
                         handlePress={submit}
                         containerStyles="mt-7"
-                        //isLoading={isSubmitting}
+                        isLoading={submitting}
                     />
+                    <View className="justify-center pt-5 flex-row gap-2">
+                        <Text className="text-lg text-gray-100 font-pregular">
+                            Don't have an account?
+                        </Text>
+                        <Link href="/sign-up" className="text-lg font-psemibold text-secondary">
+                            Sign Up
+                        </Link>
+                    </View>
                 </View>
             </ScrollView>
         </SafeAreaView>
