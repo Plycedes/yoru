@@ -5,6 +5,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import SearchInput from "../../components/SearchInput";
 import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
+import VideoCard from "../../components/VideoCard";
 
 import { images } from "../../constants";
 import { getAllPosts } from "../../lib/appwrite";
@@ -25,9 +26,7 @@ const Home = () => {
                 //data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
                 data={posts}
                 keyExtractor={(item) => item.$id}
-                renderItem={({ item }) => (
-                    <Text className="mx-5 text-2xl text-white">{item.title}</Text>
-                )}
+                renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">
                         <View className="justify-between items-start flex-row mb-6">
