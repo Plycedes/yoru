@@ -8,25 +8,10 @@ import EmptyState from "../../components/EmptyState";
 
 import { images } from "../../constants";
 import { getAllPosts } from "../../lib/appwrite";
+import useAppwrite from "../../lib/useAppwrite";
 
 const Home = () => {
-    const [data, setData] = useState([]);
-    const [isLoading, setIsLoading] = useState(true);
-
-    useEffect(() => {
-        (async () => {
-            setIsLoading(true);
-            try {
-                const response = await getAllPosts();
-                setData(response);
-            } catch (error) {
-                Alert.alert("Error", error.message);
-            } finally {
-                setIsLoading(true);
-            }
-        })();
-    }, []);
-    //console.log(data);
+    const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
     const [refreshing, setRefreshing] = useState(false);
 
     const onRefresh = async () => {
@@ -38,10 +23,10 @@ const Home = () => {
         <SafeAreaView className="bg-primary h-full">
             <FlatList
                 //data={[{ id: 1 }, { id: 2 }, { id: 3 }]}
-                data={[]}
+                data={posts}
                 keyExtractor={(item) => item.$id}
                 renderItem={({ item }) => (
-                    <Text className="mx-5 text-3xl text-white">{item.id}</Text>
+                    <Text className="mx-5 text-2xl text-white">{item.title}</Text>
                 )}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">
