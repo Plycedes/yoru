@@ -1,7 +1,6 @@
 import { View, Text, FlatList, TouchableOpacity, ImageBackground, Image } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
-import { Video, ResizeMode } from "expo-av";
 import { useVideoPlayer, VideoView } from "expo-video";
 
 import { icons } from "../constants";
@@ -41,6 +40,7 @@ const TrendingItem = ({ activeItem, item }) => {
                     contentFit="cover"
                     nativeControls
                     allowsPictureInPicture
+                    allowsFullscreen
                 />
             ) : (
                 <TouchableOpacity
