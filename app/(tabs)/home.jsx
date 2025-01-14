@@ -16,7 +16,7 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 const Home = () => {
     const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
     const { data: latestPosts } = useAppwrite(getAllPosts);
-    const { user, setUser, setIsLoggedIn } = useGlobalContext();
+    const { user } = useGlobalContext();
 
     const [refreshing, setRefreshing] = useState(false);
 

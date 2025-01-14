@@ -5,6 +5,7 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo } from "../lib/appwrite";
 import { useGlobalContext } from "../context/GlobalProvider";
+import useAppwrite from "../lib/useAppwrite";
 
 const VideoCard = ({
     video: {
@@ -16,27 +17,16 @@ const VideoCard = ({
     },
 }) => {
     const [play, setPlay] = useState(false);
-    const [liked, setLiked] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const { user } = useGlobalContext();
 
     const player = useVideoPlayer({ uri: video });
 
-    useEffect(() => {
-        (async () => {
-            const result = await videoAlreadyLiked(user.$id, $id);
-            setLiked(result);
-        })();
-    });
+    const { data: liked } = useAppwrite(() => videoAlreadyLiked(user.$id, $id));
 
-    const likeCurrentVideo = async () => {
-        const result = await likeVideo(user.$id, $id);
-        console.log(result);
-    };
+    const likeCurrentVideo = async () => await likeVideo(user.$id, $id);
 
-    const unlikeCurrentVideo = async () => {
-        await unlikeVideo(user.$id, $id);
-    };
+    const unlikeCurrentVideo = async () => await unlikeVideo(user.$id, $id);
 
     return (
         <View className="flex-col items-center px-4 mb-5">
