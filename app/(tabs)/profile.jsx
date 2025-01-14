@@ -1,6 +1,7 @@
-import { View, Image, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
+import { useState } from "react";
 
 import InfoBox from "../../components/InfoBox";
 import EmptyState from "../../components/EmptyState";
@@ -11,8 +12,10 @@ import useAppwrite from "../../lib/useAppwrite";
 import { icons } from "../../constants";
 
 import { useGlobalContext } from "../../context/GlobalProvider";
+import ProfileImage from "../../components/ProfileImage";
 
 const Profile = () => {
+    const [showImg, setShowImg] = useState(false);
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
     const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
@@ -27,6 +30,7 @@ const Profile = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full">
+            {showImg && <ProfileImage image={user?.avatar} setShow={setShowImg} />}
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item.$id}
@@ -34,7 +38,11 @@ const Profile = () => {
                 ListHeaderComponent={() => (
                     <View className="w-full justify-center items-center mt-6 mb-12 px-4">
                         <View className="w-full items-end">
-                            <TouchableOpacity className="mb-10" onPress={logout}>
+                            <TouchableOpacity
+                                className="flex-row items-center mb-10"
+                                onPress={logout}
+                            >
+                                <Text className="text-gray-200 font-psemibold text-lg">Logout</Text>
                                 <Image
                                     source={{ uri: icons.logout }}
                                     resizeMode="contain"
@@ -42,13 +50,15 @@ const Profile = () => {
                                 />
                             </TouchableOpacity>
                         </View>
-                        <View className="w-16 h-16 border border-secondary rounded-lg justify-center items-center">
-                            <Image
-                                source={{ uri: user?.avatar }}
-                                className="w-[90%] h-[90%] rounded-lg"
-                                resizeMode="cover"
-                            />
-                        </View>
+                        <TouchableOpacity onPress={() => setShowImg(true)}>
+                            <View className="w-16 h-16 border border-secondary rounded-lg justify-center items-center">
+                                <Image
+                                    source={{ uri: user?.avatar }}
+                                    className="w-[90%] h-[90%] rounded-lg"
+                                    resizeMode="cover"
+                                />
+                            </View>
+                        </TouchableOpacity>
 
                         <InfoBox
                             title={user?.username}
