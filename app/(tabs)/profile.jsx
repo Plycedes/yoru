@@ -35,9 +35,9 @@ const Profile = () => {
                         <View className="w-full items-end">
                             <TouchableOpacity className="mb-10" onPress={logout}>
                                 <Image
-                                    source={icons.logout}
+                                    source={{ uri: icons.logout }}
                                     resizeMode="contain"
-                                    className="w-6 h-6"
+                                    className="w-8 h-8"
                                 />
                             </TouchableOpacity>
                         </View>

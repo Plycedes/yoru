@@ -82,7 +82,7 @@ const Create = () => {
     return (
         <SafeAreaView className="bg-primary h-full">
             <ScrollView className="px-4 my-6">
-                <Text className="text-2xl text-white font-psemibold">Upload Video</Text>
+                <Text className="text-2xl text-white font-psemibold">Upload Video Hello</Text>
                 <FormField
                     title="Video Title"
                     value={form.title}
@@ -106,7 +106,7 @@ const Create = () => {
                             <View className="w-full h-40 px-4 bg-black-100 rounded-2xl justify-center items-center">
                                 <View className="w-14 h-14 border border-dashed border-secondary-100 justify-center items-center">
                                     <Image
-                                        source={icons.upload}
+                                        source={{ uri: icons.upload }}
                                         resizeMode="contain"
                                         className="w-1/2 h-1/2"
                                     />
@@ -131,7 +131,7 @@ const Create = () => {
                         ) : (
                             <View className="w-full h-14 px-4 bg-black-100 rounded-2xl justify-center items-center border-2 border-black-200 flex-row space-x-2">
                                 <Image
-                                    source={icons.upload}
+                                    source={{ uri: icons.upload }}
                                     resizeMode="contain"
                                     className="w-5 h-5"
                                 />
