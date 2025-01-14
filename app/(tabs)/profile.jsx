@@ -6,7 +6,7 @@ import InfoBox from "../../components/InfoBox";
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 
-import { getUserPosts, signOut } from "../../lib/appwrite";
+import { getUserPosts, getBookmarksCount, signOut } from "../../lib/appwrite";
 import useAppwrite from "../../lib/useAppwrite";
 import { icons } from "../../constants";
 
@@ -16,6 +16,7 @@ const Profile = () => {
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
     const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
+    const { data: bookmarks } = useAppwrite(() => getBookmarksCount(user.$id));
 
     const logout = async () => {
         await signOut();
@@ -63,8 +64,8 @@ const Profile = () => {
                                 titleStyles="text-lg"
                             />
                             <InfoBox
-                                title={"2.8K"}
-                                subtitle="Followers"
+                                title={bookmarks || 0}
+                                subtitle="Bookmarks"
                                 containerStyles=""
                                 titleStyles="text-lg"
                             />

@@ -33,7 +33,7 @@ export default function App() {
                         text-center"
                         >
                             Experience Limitless Horizorns with
-                            <Text className="text-secondary-200"> Yoru</Text>
+                            <Text className="text-secondary-100"> Yoru</Text>
                         </Text>
 
                         <Image

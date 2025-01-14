@@ -74,7 +74,11 @@ const VideoCard = ({
                         onPress={() => setShowDropdown(!showDropdown)}
                         activeOpacity={0.7}
                     >
-                        <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+                        <Image
+                            source={{ uri: icons.menu }}
+                            className="w-5 h-5"
+                            resizeMode="contain"
+                        />
                     </TouchableOpacity>
 
                     {/* Dropdown Menu */}
