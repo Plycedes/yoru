@@ -2,13 +2,16 @@ import { View, Text, ScrollView, Image, TouchableOpacity, Alert } from "react-na
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useVideoPlayer, VideoView } from "expo-video";
+import * as ImagePicker from "expo-image-picker";
 import * as DocumentPicker from "expo-document-picker";
+import { router } from "expo-router";
 
 import FormField from "../../components/FormField";
+import CustomButton from "../../components/CustomButton";
 
 import { icons } from "../../constants";
-import CustomButton from "../../components/CustomButton";
-import { router } from "expo-router";
+import { createVideo } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Create = () => {
     const [uploading, setUploading] = useState(false);
@@ -18,15 +21,22 @@ const Create = () => {
         thumbnail: null,
         prompt: "",
     });
+    const { user } = useGlobalContext();
 
-    const player = useVideoPlayer({ uri: form.video?.uri }, (player) => {
-        player.loop = true;
-        player.play();
-    });
+    const player = useVideoPlayer({ uri: form.video?.uri }, (player) => {});
 
     const openPicker = async (selectType) => {
-        const result = await DocumentPicker.getDocumentAsync({
-            type: selectType === "image" ? ["image/png", "image/jpg"] : ["video/mp4", "video/gif`"],
+        // const result = await DocumentPicker.getDocumentAsync({
+        //     type:
+        //         selectType === "image"
+        //             ? ["image/png", "image/jpg", "image/jpeg"]
+        //             : ["video/mp4", "video/gif`"],
+        // });
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ["images", "videos"],
+            aspect: [4, 3],
+            quality: 1,
         });
 
         if (!result.canceled) {
@@ -37,10 +47,6 @@ const Create = () => {
             if (selectType === "video") {
                 setForm({ ...form, video: result.assets[0] });
             }
-        } else {
-            setTimeout(() => {
-                Alert.alert("Document picked", JSON.stringify(result, null, 2));
-            }, 100);
         }
     };
 
@@ -52,6 +58,11 @@ const Create = () => {
         setUploading(true);
 
         try {
+            await createVideo({
+                ...form,
+                userId: user.$id,
+            });
+
             Alert.alert("Success", "Post uploaded successfully");
             router.push("/home");
         } catch (error) {
@@ -88,7 +99,6 @@ const Create = () => {
                                 className="rounded-xl w-full h-64"
                                 player={player}
                                 contentFit="cover"
-                                nativeControls
                                 allowsPictureInPicture
                                 allowsFullscreen
                             />
