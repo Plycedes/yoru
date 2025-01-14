@@ -1,11 +1,14 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useVideoPlayer, VideoView } from "expo-video";
 
 import { icons } from "../constants";
+import { likeVideo, videoAlreadyLiked, unlikeVideo } from "../lib/appwrite";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 const VideoCard = ({
     video: {
+        $id,
         title,
         thumbnail,
         video,
@@ -13,8 +16,27 @@ const VideoCard = ({
     },
 }) => {
     const [play, setPlay] = useState(false);
+    const [liked, setLiked] = useState(false);
+    const [showDropdown, setShowDropdown] = useState(false);
+    const { user } = useGlobalContext();
 
     const player = useVideoPlayer({ uri: video });
+
+    useEffect(() => {
+        (async () => {
+            const result = await videoAlreadyLiked(user.$id, $id);
+            setLiked(result);
+        })();
+    });
+
+    const likeCurrentVideo = async () => {
+        const result = await likeVideo(user.$id, $id);
+        console.log(result);
+    };
+
+    const unlikeCurrentVideo = async () => {
+        await unlikeVideo(user.$id, $id);
+    };
 
     return (
         <View className="flex-col items-center px-4 mb-5">
@@ -39,8 +61,45 @@ const VideoCard = ({
                         </Text>
                     </View>
                 </View>
-                <View className="pt-2">
-                    <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+                <View className="pt-2 relative">
+                    <TouchableOpacity
+                        onPress={() => setShowDropdown(!showDropdown)}
+                        activeOpacity={0.7}
+                    >
+                        <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
+                    </TouchableOpacity>
+
+                    {/* Dropdown Menu */}
+                    {showDropdown && (
+                        <View
+                            className="absolute top-10 right-0 bg-gray-800 rounded-md shadow-lg z-10"
+                            style={{ width: 150 }}
+                        >
+                            {!liked ? (
+                                <TouchableOpacity
+                                    className="px-4 py-2"
+                                    onPress={async () => {
+                                        setShowDropdown(false);
+                                        console.log("Option 1 clicked");
+                                        await likeCurrentVideo();
+                                    }}
+                                >
+                                    <Text className="text-white text-sm">Bookmark</Text>
+                                </TouchableOpacity>
+                            ) : (
+                                <TouchableOpacity
+                                    className="px-4 py-2"
+                                    onPress={() => {
+                                        setShowDropdown(false);
+                                        console.log("Option 2 clicked");
+                                        unlikeCurrentVideo();
+                                    }}
+                                >
+                                    <Text className="text-white text-sm">Unmark</Text>
+                                </TouchableOpacity>
+                            )}
+                        </View>
+                    )}
                 </View>
             </View>
             {play ? (
