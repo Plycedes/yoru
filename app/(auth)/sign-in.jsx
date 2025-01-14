@@ -7,7 +7,8 @@ import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButtom from "../../components/CustomButton";
 
-import { signIn } from "../../lib/appwrite";
+import { signIn, getCurrentUser } from "../../lib/appwrite";
+import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignIn = () => {
     const [form, setForm] = useState({
@@ -16,6 +17,8 @@ const SignIn = () => {
     });
     const [submitting, setSubmitting] = useState(false);
 
+    const { setUser, setIsLoggedIn } = useGlobalContext();
+
     const submit = async () => {
         if (!form.email || !form.password) {
             Alert.alert("Error", "Please fill in all the fields");
@@ -23,7 +26,10 @@ const SignIn = () => {
         setSubmitting(true);
         try {
             await signIn(form.email, form.password);
-            //Global state
+
+            const user = await getCurrentUser();
+            setUser(user);
+            setIsLoggedIn(true);
 
             router.replace("/home");
         } catch (error) {
