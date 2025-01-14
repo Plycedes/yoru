@@ -1,11 +1,11 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useVideoPlayer, VideoView } from "expo-video";
+import Toast from "react-native-toast-message";
 
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo } from "../lib/appwrite";
 import { useGlobalContext } from "../context/GlobalProvider";
-import useAppwrite from "../lib/useAppwrite";
 
 const VideoCard = ({
     video: {
@@ -17,16 +17,34 @@ const VideoCard = ({
     },
 }) => {
     const [play, setPlay] = useState(false);
+    const [liked, setLiked] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const { user } = useGlobalContext();
 
     const player = useVideoPlayer({ uri: video });
 
-    const { data: liked } = useAppwrite(() => videoAlreadyLiked(user.$id, $id));
+    useEffect(() => {
+        (async () => {
+            const result = await videoAlreadyLiked(user.$id, $id);
+            setLiked(result);
+        })();
+    });
 
-    const likeCurrentVideo = async () => await likeVideo(user.$id, $id);
+    const likeCurrentVideo = async () => {
+        await likeVideo(user.$id, $id);
+        Toast.show({
+            type: "success",
+            text1: "Bookmarked video",
+        });
+    };
 
-    const unlikeCurrentVideo = async () => await unlikeVideo(user.$id, $id);
+    const unlikeCurrentVideo = async () => {
+        await unlikeVideo(user.$id, $id);
+        Toast.show({
+            type: "success",
+            text1: "Unmarked video",
+        });
+    };
 
     return (
         <View className="flex-col items-center px-4 mb-5">
@@ -70,7 +88,6 @@ const VideoCard = ({
                                     className="px-4 py-2"
                                     onPress={async () => {
                                         setShowDropdown(false);
-                                        console.log("Option 1 clicked");
                                         await likeCurrentVideo();
                                     }}
                                 >
@@ -81,7 +98,6 @@ const VideoCard = ({
                                     className="px-4 py-2"
                                     onPress={() => {
                                         setShowDropdown(false);
-                                        console.log("Option 2 clicked");
                                         unlikeCurrentVideo();
                                     }}
                                 >

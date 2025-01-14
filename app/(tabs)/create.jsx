@@ -114,6 +114,9 @@ const Create = () => {
                             </View>
                         )}
                     </TouchableOpacity>
+                    <Text className="text-xs text-pregular text-gray-400">
+                        Please choose a video file of size below 50 MB *
+                    </Text>
                 </View>
 
                 <View className="mt-7 space-y-2">

@@ -1,4 +1,4 @@
-import { View, Text, FlatList, TouchableOpacity, ImageBackground, Image } from "react-native";
+import { FlatList, TouchableOpacity, ImageBackground, Image } from "react-native";
 import React, { useState } from "react";
 import * as Animatable from "react-native-animatable";
 import { useVideoPlayer, VideoView } from "expo-video";

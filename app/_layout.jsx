@@ -1,11 +1,22 @@
-import { StyleSheet, Text, View } from "react-native";
 import React, { useEffect } from "react";
+import { View, Text } from "react-native";
 import { SplashScreen, Stack } from "expo-router";
 import { useFonts } from "expo-font";
+import Toast from "react-native-toast-message";
 
 import GlobalProvider from "../context/GlobalProvider";
 
 SplashScreen.preventAutoHideAsync();
+
+const customToastConfig = {
+    success: ({ text1, text2 }) => (
+        <View className="flex-row bg-gray-600 p-3 rounded-full max-w-[80%] justify-center items-center">
+            <View>
+                <Text className="text-white font-semibold">{text1}</Text>
+            </View>
+        </View>
+    ),
+};
 
 const RootLayout = () => {
     const [fontsLoaded, error] = useFonts({
@@ -35,6 +46,7 @@ const RootLayout = () => {
                 <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
                 <Stack.Screen name="search/[query]" options={{ headerShown: false }} />
             </Stack>
+            <Toast config={customToastConfig} position="bottom" />
         </GlobalProvider>
     );
 };
