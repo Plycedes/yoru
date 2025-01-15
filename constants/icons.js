@@ -13,6 +13,7 @@ const upload = "https://img.icons8.com/?size=100&id=elI0lJOEvGXu&format=png&colo
 const menu = "https://img.icons8.com/?size=100&id=21622&format=png&color=FA5252";
 const edit = "https://img.icons8.com/?size=100&id=sKp0dy2A108d&format=png&color=FA5252";
 const leftArrow = "https://img.icons8.com/?size=100&id=39776&format=png&color=FA5252";
+const loader = "https://img.icons8.com/?size=100&id=m7Us8lWUkU3E&format=png&color=FFFFFF";
 
 export default {
     play,
@@ -29,5 +30,6 @@ export default {
     eyeHide,
     eye,
     edit,
+    loader,
 };
 

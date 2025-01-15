@@ -1,14 +1,19 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
+import Toast from "react-native-toast-message";
 
 import { icons } from "../constants";
+import { updateUserPfp } from "../lib/appwrite";
+import { useGlobalContext } from "../context/GlobalProvider";
 
 const ProfileImage = ({ image, setShow }) => {
-    const [uploadImg, setUploadImg] = useState("");
+    const [uploadImg, setUploadImg] = useState(null);
     const [uploading, setUploading] = useState(false);
 
-    const openPicker = async (selectType) => {
+    const { user } = useGlobalContext();
+
+    const openPicker = async () => {
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ["images"],
             aspect: [4, 3],
@@ -18,6 +23,34 @@ const ProfileImage = ({ image, setShow }) => {
         if (!result.canceled) {
             setUploadImg(result.assets[0]);
         }
+    };
+
+    const handlePfpUpdate = async () => {
+        console.log("Updating pfp");
+        setUploading(true);
+        await openPicker();
+
+        if (!uploadImg) {
+            // Toast.show({
+            //     type: "success",
+            //     text1: "Please a select an image",
+            // });
+            console.log("Select an image");
+        }
+
+        try {
+            await updateUserPfp(uploadImg, user);
+        } catch (error) {
+            // Toast.show({
+            //     type: "success",
+            //     text1: error,
+            // });
+            console.log("Some error occured while updating pfp", error);
+        } finally {
+            setUploading(false);
+            //setUploadImg("");
+        }
+        console.log(uploadImg);
     };
 
     return (
@@ -30,9 +63,21 @@ const ProfileImage = ({ image, setShow }) => {
                         resizeMode="contain"
                     />
                 </TouchableOpacity>
-                <TouchableOpacity>
-                    <Image source={{ uri: icons.edit }} className="w-8 h-8" resizeMode="contain" />
-                </TouchableOpacity>
+                {uploading ? (
+                    <Image
+                        source={{ uri: icons.loader }}
+                        className="w-8 h-8"
+                        resizeMode="contain"
+                    />
+                ) : (
+                    <TouchableOpacity onPress={handlePfpUpdate}>
+                        <Image
+                            source={{ uri: icons.edit }}
+                            className="w-8 h-8"
+                            resizeMode="contain"
+                        />
+                    </TouchableOpacity>
+                )}
             </View>
             <View className="p-2 flex items-center justify-center">
                 <Image
