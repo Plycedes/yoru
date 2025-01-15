@@ -1,4 +1,4 @@
-import { View, Text, Image, FlatList, TouchableOpacity } from "react-native";
+import { View, Text, Image, FlatList, TouchableOpacity, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { router } from "expo-router";
 import { useState } from "react";
@@ -15,17 +15,27 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 import ProfileImage from "../../components/ProfileImage";
 
 const Profile = () => {
+    const [refreshing, setRefreshing] = useState(false);
     const [showImg, setShowImg] = useState(false);
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
-    const { data: posts } = useAppwrite(() => getUserPosts(user.$id));
-    const { data: bookmarks } = useAppwrite(() => getBookmarksCount(user.$id));
+    const { data: posts, refetch: refetchPosts } = useAppwrite(() => getUserPosts(user.$id));
+    const { data: bookmarks, refetch: refetchBookmarks } = useAppwrite(() =>
+        getBookmarksCount(user.$id)
+    );
 
     const logout = async () => {
         await signOut();
         setUser(null);
         setIsLoggedIn(false);
         router.replace("/sign-in");
+    };
+
+    const handleRequest = async () => {
+        setRefreshing(true);
+        await refetchPosts();
+        await refetchBookmarks();
+        setRefreshing(false);
     };
 
     return (
@@ -88,6 +98,9 @@ const Profile = () => {
                         subtitle="No search results found for this query"
                     />
                 )}
+                refreshControl={
+                    <RefreshControl refreshing={refreshing} onRefresh={handleRequest} />
+                }
             />
         </SafeAreaView>
     );

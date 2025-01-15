@@ -1,9 +1,25 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
-import React from "react";
+import React, { useState } from "react";
+import * as ImagePicker from "expo-image-picker";
 
 import { icons } from "../constants";
 
 const ProfileImage = ({ image, setShow }) => {
+    const [uploadImg, setUploadImg] = useState("");
+    const [uploading, setUploading] = useState(false);
+
+    const openPicker = async (selectType) => {
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ["images"],
+            aspect: [4, 3],
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setUploadImg(result.assets[0]);
+        }
+    };
+
     return (
         <View className="absolute top-0 left-0 w-full h-full bg-black/80 backdrop-blur-sm z-50 mt-10 p-5">
             <View className="flex flex-row justify-between items-center">
