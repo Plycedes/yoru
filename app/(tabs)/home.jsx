@@ -13,12 +13,21 @@ import useAppwrite from "../../lib/useAppwrite";
 
 import { useGlobalContext } from "../../context/GlobalProvider";
 
+// import { useVideoPlayer, VideoView } from "expo-video";
+
 const Home = () => {
     const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
     const { data: latestPosts } = useAppwrite(getAllPosts);
     const { user } = useGlobalContext();
 
     const [refreshing, setRefreshing] = useState(false);
+
+    // const videoSrc =
+    //     "http://res.cloudinary.com/dxsffcg6l/video/upload/v1737113332/gmco9e6tewposzyxbbie.mp4";
+
+    // const player = useVideoPlayer({ uri: videoSrc }, (player) => {
+    //     player.play();
+    // });
 
     const onRefresh = async () => {
         setRefreshing(true);
@@ -67,6 +76,7 @@ const Home = () => {
                 )}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
+            {/* <VideoView player={player} className="w-full h-60" /> */}
         </SafeAreaView>
     );
 };

@@ -13,7 +13,7 @@ const VideoCard = ({
         title,
         thumbnail,
         video,
-        creator: { username, avatar },
+        user: { $id: creatorId, username, avatar },
     },
 }) => {
     const [play, setPlay] = useState(false);
@@ -31,7 +31,7 @@ const VideoCard = ({
     });
 
     const likeCurrentVideo = async () => {
-        await likeVideo(user.$id, $id);
+        await likeVideo(user.$id, $id, creatorId);
         Toast.show({
             type: "success",
             text1: "Bookmarked video",

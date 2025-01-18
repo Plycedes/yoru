@@ -8,49 +8,48 @@ import { updateUserPfp } from "../lib/appwrite";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 const ProfileImage = ({ image, setShow }) => {
-    const [uploadImg, setUploadImg] = useState(null);
     const [uploading, setUploading] = useState(false);
 
     const { user } = useGlobalContext();
 
     const openPicker = async () => {
-        let result = await ImagePicker.launchImageLibraryAsync({
+        const result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ["images"],
             aspect: [4, 3],
             quality: 1,
         });
 
         if (!result.canceled) {
-            setUploadImg(result.assets[0]);
+            return result.assets[0];
         }
+        return null;
     };
 
     const handlePfpUpdate = async () => {
-        console.log("Updating pfp");
         setUploading(true);
-        await openPicker();
-
-        if (!uploadImg) {
-            // Toast.show({
-            //     type: "success",
-            //     text1: "Please a select an image",
-            // });
-            console.log("Select an image");
-        }
 
         try {
-            await updateUserPfp(uploadImg, user);
+            const selectedImage = await openPicker();
+
+            if (!selectedImage) {
+                console.log("Select an image");
+                return;
+            }
+            await updateUserPfp({ pfp: selectedImage }, user);
+
+            Toast.show({
+                type: "success",
+                text1: "Changed Profile Image",
+            });
         } catch (error) {
-            // Toast.show({
-            //     type: "success",
-            //     text1: error,
-            // });
-            console.log("Some error occured while updating pfp", error);
+            console.log("Some error occurred while updating pfp", error);
+            Toast.show({
+                type: "success",
+                text1: "Some error occured",
+            });
         } finally {
             setUploading(false);
-            //setUploadImg("");
         }
-        console.log(uploadImg);
     };
 
     return (
