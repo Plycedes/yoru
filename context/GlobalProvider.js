@@ -18,7 +18,6 @@ const GlobalProvider = ({ children }) => {
                 if (res) {
                     setIsLoggedIn(true);
                     setUser(res);
-                    console.log("It works");
                 }
             } catch (error) {
                 if ([401, 403].includes(error?.response?.status)) {
