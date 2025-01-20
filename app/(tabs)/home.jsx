@@ -9,7 +9,8 @@ import VideoCard from "../../components/VideoCard";
 
 import { images } from "../../constants";
 import { getAllPosts } from "../../lib/expressApi.js";
-import useAppwrite from "../../lib/useAppwrite";
+
+import useAxios from "../../lib/useAxios.js";
 
 import { useGlobalContext } from "../../context/GlobalProvider";
 
@@ -17,8 +18,8 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
     console.log("Home");
-    const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
-    const { data: latestPosts } = useAppwrite(getAllPosts);
+    const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
+    const { data: latestPosts } = useAxios(getAllPosts);
     const { user } = useGlobalContext();
 
     const [refreshing, setRefreshing] = useState(false);

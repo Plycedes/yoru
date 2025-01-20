@@ -4,7 +4,7 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import Toast from "react-native-toast-message";
 
 import { icons } from "../constants";
-import { likeVideo, videoAlreadyLiked, unlikeVideo } from "../lib/appwrite";
+import { likeVideo, videoAlreadyLiked, unlikeVideo } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 const VideoCard = ({
@@ -25,13 +25,13 @@ const VideoCard = ({
 
     useEffect(() => {
         (async () => {
-            const result = await videoAlreadyLiked(user._id, _id);
+            const result = await videoAlreadyLiked({ videoId: _id });
             setLiked(result);
         })();
     });
 
     const likeCurrentVideo = async () => {
-        await likeVideo(user._id, _id, creatorId);
+        await likeVideo({ videoId: _id, creatorId });
         Toast.show({
             type: "success",
             text1: "Bookmarked video",
