@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 import { getCurrentUser } from "../lib/expressApi.js";
+import useAxios from "../lib/useAxios.js";
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
@@ -17,12 +18,13 @@ const GlobalProvider = ({ children }) => {
                 if (res) {
                     setIsLoggedIn(true);
                     setUser(res);
-                } else {
+                    console.log("It works");
+                }
+            } catch (error) {
+                if ([401, 403].includes(error?.response?.status)) {
                     setIsLoggedIn(false);
                     setUser(null);
                 }
-            } catch (error) {
-                console.log(error);
             } finally {
                 setIsLoading(false);
             }
