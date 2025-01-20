@@ -8,7 +8,7 @@ import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 
 import { images } from "../../constants";
-import { getAllPosts } from "../../lib/appwrite";
+import { getAllPosts } from "../../lib/expressApi.js";
 import useAppwrite from "../../lib/useAppwrite";
 
 import { useGlobalContext } from "../../context/GlobalProvider";
@@ -16,6 +16,7 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 // import { useVideoPlayer, VideoView } from "expo-video";
 
 const Home = () => {
+    console.log("Home");
     const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
     const { data: latestPosts } = useAppwrite(getAllPosts);
     const { user } = useGlobalContext();
@@ -38,7 +39,7 @@ const Home = () => {
         <SafeAreaView className="bg-primary h-full">
             <FlatList
                 data={posts}
-                keyExtractor={(item) => item.$id}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">

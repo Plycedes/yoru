@@ -7,8 +7,9 @@ import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButtom from "../../components/CustomButton";
 
-import { signIn, getCurrentUser } from "../../lib/appwrite";
+import { loginUser, getCurrentUser } from "../../lib/expressApi.js";
 import { useGlobalContext } from "../../context/GlobalProvider";
+import useAxios from "../../lib/useAxios.js";
 
 const SignIn = () => {
     const [form, setForm] = useState({
@@ -25,9 +26,10 @@ const SignIn = () => {
         }
         setSubmitting(true);
         try {
-            await signIn(form.email, form.password);
+            console.log("Submit");
+            //const { data: user } = useAxios(() => loginUser(form));
+            const user = await loginUser(form);
 
-            const user = await getCurrentUser();
             setUser(user);
             setIsLoggedIn(true);
 

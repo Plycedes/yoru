@@ -9,11 +9,11 @@ import { useGlobalContext } from "../context/GlobalProvider";
 
 const VideoCard = ({
     video: {
-        $id,
+        _id,
         title,
         thumbnail,
         video,
-        user: { $id: creatorId, username, avatar },
+        creatorDetails: { _id: creatorId, username, avatar },
     },
 }) => {
     const [play, setPlay] = useState(false);
@@ -25,13 +25,13 @@ const VideoCard = ({
 
     useEffect(() => {
         (async () => {
-            const result = await videoAlreadyLiked(user.$id, $id);
+            const result = await videoAlreadyLiked(user._id, _id);
             setLiked(result);
         })();
     });
 
     const likeCurrentVideo = async () => {
-        await likeVideo(user.$id, $id, creatorId);
+        await likeVideo(user._id, _id, creatorId);
         Toast.show({
             type: "success",
             text1: "Bookmarked video",
@@ -39,7 +39,7 @@ const VideoCard = ({
     };
 
     const unlikeCurrentVideo = async () => {
-        await unlikeVideo(user.$id, $id);
+        await unlikeVideo(user._id, _id);
         Toast.show({
             type: "success",
             text1: "Unmarked video",
