@@ -1,5 +1,6 @@
 import { View, Text, Image, FlatList, TouchableOpacity, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import { useState } from "react";
 
@@ -8,7 +9,6 @@ import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 
 import { getUserPosts, getBookmarksCount, logoutUser } from "../../lib/expressApi.js";
-import useAppwrite from "../../lib/useAppwrite";
 import useAxios from "../../lib/useAxios.js";
 import { icons } from "../../constants";
 
@@ -24,7 +24,7 @@ const Profile = () => {
     const { data: bookmarks, refetch: refetchBookmarks } = useAxios(getBookmarksCount);
 
     const logout = async () => {
-        await signOut();
+        await logoutUser();
         setUser(null);
         setIsLoggedIn(false);
         router.replace("/sign-in");
@@ -105,7 +105,7 @@ const Profile = () => {
                     }
                 />
             ) : (
-                <Text className="text-white">Please log in to view profile</Text>
+                <Text className="text-white">Loading...</Text>
             )}
         </SafeAreaView>
     );

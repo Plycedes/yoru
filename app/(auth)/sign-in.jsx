@@ -7,9 +7,8 @@ import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButtom from "../../components/CustomButton";
 
-import { loginUser, getCurrentUser } from "../../lib/expressApi.js";
+import { loginUser } from "../../lib/expressApi.js";
 import { useGlobalContext } from "../../context/GlobalProvider";
-import useAxios from "../../lib/useAxios.js";
 
 const SignIn = () => {
     const [form, setForm] = useState({
@@ -26,11 +25,9 @@ const SignIn = () => {
         }
         setSubmitting(true);
         try {
-            console.log("Submit");
-            //const { data: user } = useAxios(() => loginUser(form));
             const user = await loginUser(form);
 
-            setUser(user);
+            setUser(user.user);
             setIsLoggedIn(true);
 
             router.replace("/home");

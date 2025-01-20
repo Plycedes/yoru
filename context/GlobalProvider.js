@@ -1,7 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
 import { getCurrentUser } from "../lib/expressApi.js";
-import useAxios from "../lib/useAxios.js";
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
