@@ -1,6 +1,6 @@
 import { createContext, useContext, useState, useEffect } from "react";
 
-import { getCurrentUser } from "../lib/appwrite";
+import { getCurrentUser } from "../lib/expressApi.js";
 
 const GlobalContext = createContext();
 export const useGlobalContext = () => useContext(GlobalContext);
