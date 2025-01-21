@@ -39,7 +39,8 @@ const VideoCard = ({
     };
 
     const unlikeCurrentVideo = async () => {
-        await unlikeVideo(user._id, _id);
+        console.log("Test");
+        await unlikeVideo({ videoId: _id });
         Toast.show({
             type: "success",
             text1: "Unmarked video",
@@ -100,9 +101,9 @@ const VideoCard = ({
                             ) : (
                                 <TouchableOpacity
                                     className="px-4 py-2"
-                                    onPress={() => {
+                                    onPress={async () => {
                                         setShowDropdown(false);
-                                        unlikeCurrentVideo();
+                                        await unlikeCurrentVideo();
                                     }}
                                 >
                                     <Text className="text-white text-sm">Unmark</Text>
