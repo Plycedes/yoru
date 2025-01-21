@@ -40,7 +40,7 @@ const Profile = () => {
     return (
         <SafeAreaView className="bg-primary h-full">
             {showImg && <ProfileImage image={user?.avatar} setShow={setShowImg} />}
-            {posts.length > 0 ? (
+            {true ? (
                 <FlatList
                     data={posts}
                     keyExtractor={(item) => item._id}
