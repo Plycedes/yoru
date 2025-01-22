@@ -27,6 +27,7 @@ const Profile = () => {
         await logoutUser();
         setUser(null);
         setIsLoggedIn(false);
+        await AsyncStorage.setItem("token", "");
         router.replace("/sign-in");
     };
 

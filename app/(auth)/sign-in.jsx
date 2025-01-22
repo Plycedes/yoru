@@ -2,6 +2,7 @@ import { ScrollView, Image, Text, View, Alert } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
@@ -29,6 +30,8 @@ const SignIn = () => {
 
             setUser(user.user);
             setIsLoggedIn(true);
+            console.log(user.accessToken);
+            await AsyncStorage.setItem("token", user.accessToken);
 
             router.replace("/home");
         } catch (error) {
