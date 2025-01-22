@@ -2,12 +2,13 @@ import { ScrollView, Image, Text, View, Alert } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButtom from "../../components/CustomButton";
 
-import { signIn, getCurrentUser } from "../../lib/appwrite";
+import { loginUser } from "../../lib/expressApi.js";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignIn = () => {
@@ -25,11 +26,12 @@ const SignIn = () => {
         }
         setSubmitting(true);
         try {
-            await signIn(form.email, form.password);
+            const user = await loginUser(form);
 
-            const user = await getCurrentUser();
-            setUser(user);
+            setUser(user.user);
             setIsLoggedIn(true);
+            console.log(user.accessToken);
+            await AsyncStorage.setItem("token", user.accessToken);
 
             router.replace("/home");
         } catch (error) {

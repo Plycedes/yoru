@@ -4,11 +4,12 @@ import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";
 
 import { icons } from "../constants";
-import { updateUserPfp } from "../lib/appwrite";
+import { updateUserPfp } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 const ProfileImage = ({ image, setShow }) => {
     const [uploading, setUploading] = useState(false);
+    const [localImage, setLocalImage] = useState(null);
 
     const { user } = useGlobalContext();
 
@@ -35,14 +36,14 @@ const ProfileImage = ({ image, setShow }) => {
                 console.log("Select an image");
                 return;
             }
-            await updateUserPfp({ pfp: selectedImage }, user);
+            await updateUserPfp({ avatar: selectedImage });
 
             Toast.show({
                 type: "success",
                 text1: "Changed Profile Image",
             });
         } catch (error) {
-            console.log("Some error occurred while updating pfp", error);
+            //console.log("Some error occurred while updating pfp", error.response);
             Toast.show({
                 type: "success",
                 text1: "Some error occured",

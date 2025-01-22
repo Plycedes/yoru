@@ -8,26 +8,20 @@ import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 
 import { images } from "../../constants";
-import { getAllPosts } from "../../lib/appwrite";
-import useAppwrite from "../../lib/useAppwrite";
+import { getAllPosts } from "../../lib/expressApi.js";
+
+import useAxios from "../../lib/useAxios.js";
 
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 // import { useVideoPlayer, VideoView } from "expo-video";
 
 const Home = () => {
-    const { data: posts, isLoading, refetch } = useAppwrite(getAllPosts);
-    const { data: latestPosts } = useAppwrite(getAllPosts);
+    const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
+    const { data: latestPosts } = useAxios(getAllPosts);
     const { user } = useGlobalContext();
 
     const [refreshing, setRefreshing] = useState(false);
-
-    // const videoSrc =
-    //     "http://res.cloudinary.com/dxsffcg6l/video/upload/v1737113332/gmco9e6tewposzyxbbie.mp4";
-
-    // const player = useVideoPlayer({ uri: videoSrc }, (player) => {
-    //     player.play();
-    // });
 
     const onRefresh = async () => {
         setRefreshing(true);
@@ -38,7 +32,7 @@ const Home = () => {
         <SafeAreaView className="bg-primary h-full">
             <FlatList
                 data={posts}
-                keyExtractor={(item) => item.$id}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4 space-y-6">
@@ -76,7 +70,6 @@ const Home = () => {
                 )}
                 refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />}
             />
-            {/* <VideoView player={player} className="w-full h-60" /> */}
         </SafeAreaView>
     );
 };
