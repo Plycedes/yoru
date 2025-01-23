@@ -7,6 +7,7 @@ import { useState } from "react";
 import InfoBox from "../../components/InfoBox";
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
+import DialogBox from "../../components/DialogBox.jsx";
 
 import { getUserPosts, getBookmarksCount, logoutUser } from "../../lib/expressApi.js";
 import useAxios from "../../lib/useAxios.js";
@@ -18,6 +19,8 @@ import ProfileImage from "../../components/ProfileImage";
 const Profile = () => {
     const [refreshing, setRefreshing] = useState(false);
     const [showImg, setShowImg] = useState(false);
+    const [isDialogVisible, setDialogVisible] = useState(false);
+
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
     const { data: posts, refetch: refetchPosts } = useAxios(getUserPosts);
@@ -38,9 +41,23 @@ const Profile = () => {
         setRefreshing(false);
     };
 
+    const showDialog = () => {
+        setDialogVisible(true);
+    };
+
+    const closeDialog = () => {
+        setDialogVisible(false);
+    };
+
     return (
         <SafeAreaView className="bg-primary h-full">
             {showImg && <ProfileImage image={user?.avatar} setShow={setShowImg} />}
+            <DialogBox
+                isVisible={isDialogVisible}
+                title="Are you sure you want to logout?"
+                onConfirm={logout}
+                closeDialog={closeDialog}
+            />
             {true ? (
                 <FlatList
                     data={posts}
@@ -51,7 +68,7 @@ const Profile = () => {
                             <View className="w-full items-end">
                                 <TouchableOpacity
                                     className="flex-row items-center mb-10"
-                                    onPress={logout}
+                                    onPress={showDialog}
                                 >
                                     <Text className="text-gray-200 font-psemibold text-lg">
                                         Logout

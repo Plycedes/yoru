@@ -55,7 +55,7 @@ const VideoCard = ({
             await deleteVideo({ vidId: _id });
             Toast.show({
                 type: "success",
-                text1: "Successfully video",
+                text1: "Successfully deleted video",
             });
         } catch (error) {
             Toast.show({
@@ -77,7 +77,7 @@ const VideoCard = ({
         <View className="flex-col items-center px-4 mb-5">
             <DialogBox
                 isVisible={isDialogVisible}
-                title="Do you want to proceed?"
+                title="Are you sure you want to delete this video?"
                 onConfirm={deleteCurrentVideo}
                 closeDialog={closeDialog}
             />

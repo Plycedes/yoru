@@ -8,9 +8,13 @@ const DialogBox = ({ isVisible, title = "Are you sure?", onConfirm, onCancel, cl
             <Modal
                 isVisible={isVisible}
                 onBackdropPress={closeDialog}
-                style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+                style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                }}
             >
-                <View className="w-72 p-6 bg-gray-800 rounded-xl items-center">
+                <View className="w-full p-6 bg-gray-800 rounded-xl items-center">
                     <Text className="text-xl font-semibold mb-5 text-white text-center">
                         {title}
                     </Text>
