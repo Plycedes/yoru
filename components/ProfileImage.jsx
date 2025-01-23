@@ -9,7 +9,6 @@ import { useGlobalContext } from "../context/GlobalProvider";
 
 const ProfileImage = ({ image, setShow }) => {
     const [uploading, setUploading] = useState(false);
-    const [localImage, setLocalImage] = useState(null);
 
     const { user } = useGlobalContext();
 

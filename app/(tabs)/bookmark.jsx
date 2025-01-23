@@ -6,13 +6,10 @@ import VideoCard from "../../components/VideoCard";
 
 import { getLikedPosts } from "../../lib/expressApi.js";
 
-import { useGlobalContext } from "../../context/GlobalProvider";
 import { useState } from "react";
 import useAxios from "../../lib/useAxios.js";
 
 const Bookmark = () => {
-    const { user } = useGlobalContext();
-    //const [posts, setPosts] = useState([]);
     const [refreshing, setRefreshing] = useState(false);
 
     const { data: posts, isLoading, refetch } = useAxios(() => getLikedPosts());
