@@ -4,8 +4,8 @@ import { useVideoPlayer, VideoView } from "expo-video";
 import Toast from "react-native-toast-message";
 
 import { icons } from "../constants";
-import { likeVideo, videoAlreadyLiked, unlikeVideo } from "../lib/expressApi.js";
-import { useGlobalContext } from "../context/GlobalProvider";
+import { likeVideo, videoAlreadyLiked, unlikeVideo, deleteVideo } from "../lib/expressApi.js";
+import { useGlobalContext } from "../context/GlobalProvider.js";
 
 const VideoCard = ({
     video: {
@@ -19,6 +19,7 @@ const VideoCard = ({
     const [play, setPlay] = useState(false);
     const [liked, setLiked] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+
     const { user } = useGlobalContext();
 
     const player = useVideoPlayer({ uri: video });
@@ -39,12 +40,26 @@ const VideoCard = ({
     };
 
     const unlikeCurrentVideo = async () => {
-        console.log("Test");
         await unlikeVideo({ videoId: _id });
         Toast.show({
             type: "success",
             text1: "Unmarked video",
         });
+    };
+
+    const deleteCurrentVideo = async () => {
+        try {
+            await deleteVideo({ vidId: _id });
+            Toast.show({
+                type: "success",
+                text1: "Successfully video",
+            });
+        } catch (error) {
+            Toast.show({
+                type: "success",
+                text1: `Error: ${error.message}`,
+            });
+        }
     };
 
     return (
@@ -107,6 +122,17 @@ const VideoCard = ({
                                     }}
                                 >
                                     <Text className="text-white text-sm">Unmark</Text>
+                                </TouchableOpacity>
+                            )}
+                            {user._id === creatorId && (
+                                <TouchableOpacity
+                                    className="px-4 py-2"
+                                    onPress={async () => {
+                                        setShowDropdown(false);
+                                        await unlikeCurrentVideo();
+                                    }}
+                                >
+                                    <Text className="text-white text-sm">Delete video</Text>
                                 </TouchableOpacity>
                             )}
                         </View>
