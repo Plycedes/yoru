@@ -21,18 +21,10 @@ const Create = () => {
         thumbnail: null,
         prompt: "",
     });
-    const { user } = useGlobalContext();
 
     const player = useVideoPlayer({ uri: form.video?.uri }, (player) => {});
 
     const openPicker = async (selectType) => {
-        // const result = await DocumentPicker.getDocumentAsync({
-        //     type:
-        //         selectType === "image"
-        //             ? ["image/png", "image/jpg", "image/jpeg"]
-        //             : ["video/mp4", "video/gif`"],
-        // });
-
         let result = await ImagePicker.launchImageLibraryAsync({
             mediaTypes: ["images", "videos"],
             aspect: [4, 3],
