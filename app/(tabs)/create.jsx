@@ -10,7 +10,7 @@ import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 
 import { icons } from "../../constants";
-import { createVideo } from "../../lib/appwrite";
+import { createVideo } from "../../lib/expressApi.js";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Create = () => {
@@ -40,12 +40,17 @@ const Create = () => {
         });
 
         if (!result.canceled) {
+            const metaData = {
+                uri: result.assets[0].uri,
+                name: result.assets[0].fileName,
+                type: result.assets[0].mimeType,
+            };
             if (selectType === "image") {
-                setForm({ ...form, thumbnail: result.assets[0] });
+                setForm({ ...form, thumbnail: metaData });
             }
 
             if (selectType === "video") {
-                setForm({ ...form, video: result.assets[0] });
+                setForm({ ...form, video: metaData });
             }
         }
     };
@@ -59,8 +64,7 @@ const Create = () => {
 
         try {
             await createVideo({
-                ...form,
-                userId: user.$id,
+                form,
             });
 
             Alert.alert("Success", "Post uploaded successfully");
