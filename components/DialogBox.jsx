@@ -1,39 +1,57 @@
-import React, { useState } from "react";
-import { View, Button, Alert } from "react-native";
-import ConfirmationDialog from "./ConfirmationDialog";
+import React from "react";
+import { View, Text, TouchableOpacity } from "react-native";
+import Modal from "react-native-modal";
 
-const App = () => {
-    const [isDialogVisible, setDialogVisible] = useState(false);
-
-    const handleConfirm = () => {
-        Alert.alert("Confirmed", "You clicked Yes.");
-    };
-
-    const handleCancel = () => {
-        Alert.alert("Cancelled", "You clicked No.");
-    };
-
-    const showDialog = () => {
-        setDialogVisible(true);
-    };
-
-    const closeDialog = () => {
-        setDialogVisible(false);
-    };
-
+const DialogBox = ({ isVisible, title = "Are you sure?", onConfirm, onCancel, closeDialog }) => {
     return (
-        <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-            <Button title="Open Confirmation" onPress={showDialog} />
-
-            <ConfirmationDialog
-                isVisible={isDialogVisible}
-                title="Do you want to proceed?"
-                onConfirm={handleConfirm}
-                onCancel={handleCancel}
-                closeDialog={closeDialog}
-            />
+        <View className="flex justify-center items-center">
+            <Modal
+                isVisible={isVisible}
+                onBackdropPress={closeDialog}
+                style={{ display: "flex", justifyContent: "center", alignItems: "center" }}
+            >
+                <View className="w-72 p-6 bg-gray-800 rounded-xl items-center">
+                    <Text className="text-xl font-semibold mb-5 text-white text-center">
+                        {title}
+                    </Text>
+                    <View className="flex-row justify-between w-full">
+                        <TouchableOpacity
+                            onPress={() => {
+                                onConfirm();
+                                closeDialog();
+                            }}
+                            activeOpacity={0.7}
+                            className={`bg-secondary rounded-xl w-20 h-10
+                                justify-center items-center 
+                                `}
+                        >
+                            <Text
+                                className={`text-primary font-psemibold
+                                    text-lg `}
+                            >
+                                Yes
+                            </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            onPress={() => {
+                                closeDialog();
+                            }}
+                            activeOpacity={0.7}
+                            className={`bg-gray-300 rounded-xl w-20 h-10
+                                justify-center items-center`}
+                        >
+                            <Text
+                                className={`text-primary font-psemibold
+                                    text-lg}`}
+                            >
+                                No
+                            </Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 };
 
-export default App;
+export default DialogBox;

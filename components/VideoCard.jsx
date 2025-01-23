@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import { useVideoPlayer, VideoView } from "expo-video";
 import Toast from "react-native-toast-message";
 
+import DialogBox from "./DialogBox.jsx";
+
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo, deleteVideo } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider.js";
@@ -19,6 +21,7 @@ const VideoCard = ({
     const [play, setPlay] = useState(false);
     const [liked, setLiked] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
+    const [isDialogVisible, setDialogVisible] = useState(false);
 
     const { user } = useGlobalContext();
 
@@ -62,8 +65,22 @@ const VideoCard = ({
         }
     };
 
+    const showDialog = () => {
+        setDialogVisible(true);
+    };
+
+    const closeDialog = () => {
+        setDialogVisible(false);
+    };
+
     return (
         <View className="flex-col items-center px-4 mb-5">
+            <DialogBox
+                isVisible={isDialogVisible}
+                title="Do you want to proceed?"
+                onConfirm={deleteCurrentVideo}
+                closeDialog={closeDialog}
+            />
             <View className="flex-row gap-3 items-start">
                 <View className="justify-center items-center flex-row flex-1">
                     <View
@@ -125,13 +142,7 @@ const VideoCard = ({
                                 </TouchableOpacity>
                             )}
                             {user._id === creatorId && (
-                                <TouchableOpacity
-                                    className="px-4 py-2"
-                                    onPress={async () => {
-                                        setShowDropdown(false);
-                                        await unlikeCurrentVideo();
-                                    }}
-                                >
+                                <TouchableOpacity className="px-4 py-2" onPress={showDialog}>
                                     <Text className="text-white text-sm">Delete video</Text>
                                 </TouchableOpacity>
                             )}
