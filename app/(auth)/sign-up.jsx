@@ -2,12 +2,13 @@ import { ScrollView, Image, Text, View, Alert } from "react-native";
 import { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Link, router } from "expo-router";
+import Toast from "react-native-toast-message";
 
 import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButtom from "../../components/CustomButton";
 
-import { createUser } from "../../lib/appwrite";
+import { registerUser } from "../../lib/expressApi.js";
 import { useGlobalContext } from "../../context/GlobalProvider";
 
 const SignUp = () => {
@@ -25,12 +26,13 @@ const SignUp = () => {
         }
         setSubmitting(true);
         try {
-            const result = await createUser(form.email, form.password, form.username);
+            await registerUser(form);
+            Toast.show({
+                type: "success",
+                text1: "User registered successfully",
+            });
 
-            setUser(result);
-            setIsLoggedIn(true);
-
-            router.replace("/home");
+            router.replace("/sign-in");
         } catch (error) {
             Alert.alert("Error", error.message);
         } finally {
