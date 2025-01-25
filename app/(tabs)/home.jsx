@@ -18,7 +18,11 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Home = () => {
     const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
-    const { data: latestPosts } = useAxios(getAllPosts);
+    const {
+        data: latestPosts,
+        isLoading: latestLoading,
+        refetch: refetchLatest,
+    } = useAxios(getAllPosts);
     const { user } = useGlobalContext();
 
     const [refreshing, setRefreshing] = useState(false);
@@ -26,6 +30,7 @@ const Home = () => {
     const onRefresh = async () => {
         setRefreshing(true);
         await refetch();
+        await refetchLatest();
         setRefreshing(false);
     };
     return (

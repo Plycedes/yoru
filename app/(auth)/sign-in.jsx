@@ -30,7 +30,6 @@ const SignIn = () => {
 
             setUser(user.user);
             setIsLoggedIn(true);
-            console.log(user.accessToken);
             await AsyncStorage.setItem("token", user.accessToken);
 
             router.replace("/home");
