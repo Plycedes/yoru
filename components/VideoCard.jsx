@@ -2,6 +2,7 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
 import { useVideoPlayer, VideoView } from "expo-video";
 import Toast from "react-native-toast-message";
+import * as Clipboard from "expo-clipboard";
 
 import DialogBox from "./DialogBox.jsx";
 
@@ -74,12 +75,8 @@ const VideoCard = ({
         setDialogVisible(false);
     };
 
-    const copyPrompt = () => {
-        //Clipboard.setString(prompt);
-        Toast.show({
-            type: "success",
-            text1: "Copied prompt",
-        });
+    const copyPrompt = async () => {
+        await Clipboard.setStringAsync(prompt);
     };
 
     return (
@@ -155,6 +152,9 @@ const VideoCard = ({
                                     <Text className="text-white text-sm">Delete video</Text>
                                 </TouchableOpacity>
                             )}
+                            <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>
+                                <Text className="text-white text-sm">Copy Prompt</Text>
+                            </TouchableOpacity>
                         </View>
                     )}
                 </View>
