@@ -6,14 +6,14 @@ import SearchInput from "../../components/SearchInput";
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 
-import { searchPosts } from "../../lib/appwrite";
-import useAppwrite from "../../lib/useAppwrite";
+import { searchPosts } from "../../lib/expressApi.js";
+import useAxios from "../../lib/useAxios.js";
 
 import { useLocalSearchParams } from "expo-router";
 
 const Search = () => {
     const { query } = useLocalSearchParams();
-    const { data: posts, isLoading, refetch } = useAppwrite(() => searchPosts(query));
+    const { data: posts, isLoading, refetch } = useAxios(() => searchPosts(query));
 
     useEffect(() => {
         refetch();
@@ -22,7 +22,7 @@ const Search = () => {
         <SafeAreaView className="bg-primary h-full">
             <FlatList
                 data={posts}
-                keyExtractor={(item) => item.$id}
+                keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
                     <View className="my-6 px-4">
