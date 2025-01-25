@@ -15,6 +15,7 @@ const VideoCard = ({
         title,
         thumbnail,
         video,
+        prompt,
         creatorDetails: { _id: creatorId, username, avatar },
     },
 }) => {
@@ -71,6 +72,14 @@ const VideoCard = ({
 
     const closeDialog = () => {
         setDialogVisible(false);
+    };
+
+    const copyPrompt = () => {
+        //Clipboard.setString(prompt);
+        Toast.show({
+            type: "success",
+            text1: "Copied prompt",
+        });
     };
 
     return (

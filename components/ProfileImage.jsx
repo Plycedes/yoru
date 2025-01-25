@@ -5,12 +5,9 @@ import Toast from "react-native-toast-message";
 
 import { icons } from "../constants";
 import { updateUserPfp } from "../lib/expressApi.js";
-import { useGlobalContext } from "../context/GlobalProvider";
 
 const ProfileImage = ({ image, setShow }) => {
     const [uploading, setUploading] = useState(false);
-
-    const { user } = useGlobalContext();
 
     const openPicker = async () => {
         const result = await ImagePicker.launchImageLibraryAsync({
