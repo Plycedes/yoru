@@ -1,4 +1,4 @@
-import { View, Text, Image, TouchableOpacity } from "react-native";
+import { View, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 import * as ImagePicker from "expo-image-picker";
 import Toast from "react-native-toast-message";

@@ -11,7 +11,6 @@ import CustomButton from "../../components/CustomButton";
 
 import { icons } from "../../constants";
 import { createVideo } from "../../lib/expressApi.js";
-import { useGlobalContext } from "../../context/GlobalProvider";
 
 const Create = () => {
     const [uploading, setUploading] = useState(false);
