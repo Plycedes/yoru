@@ -8,6 +8,7 @@ import CustomButton from "../components/CustomButton";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 import "react-native-url-polyfill/auto";
+import "react-native-get-random-values";
 
 export default function App() {
     const { isLoading, isLoggedIn } = useGlobalContext();
