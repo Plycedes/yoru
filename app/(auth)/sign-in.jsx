@@ -23,10 +23,16 @@ const SignIn = () => {
     const submit = async () => {
         if (!form.email || !form.password) {
             Alert.alert("Error", "Please fill in all the fields");
+            return;
         }
+
         setSubmitting(true);
+        console.log("Submitting login form with:", form);
+
         try {
             const user = await loginUser(form);
+
+            console.log("Login successful:", user);
 
             setUser(user.user);
             setIsLoggedIn(true);
@@ -34,7 +40,26 @@ const SignIn = () => {
 
             router.replace("/home");
         } catch (error) {
-            Alert.alert("Error", error.message);
+            console.error("Login failed:", error);
+
+            if (error.response) {
+                console.error("Server responded with:", error.response.status, error.response.data);
+                Alert.alert(
+                    "Error",
+                    `Server Error: ${error.response.status} - ${JSON.stringify(
+                        error.response.data
+                    )}`
+                );
+            } else if (error.request) {
+                console.error("No response received from server:", error.request);
+                Alert.alert(
+                    "Error",
+                    "Network error: No response from server. Check internet connection."
+                );
+            } else {
+                console.error("Axios error:", error.message);
+                Alert.alert("Error", `Request error: ${error.message}`);
+            }
         } finally {
             setSubmitting(false);
         }

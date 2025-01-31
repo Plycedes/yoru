@@ -1,46 +1,47 @@
 {
-  "expo": {
-    "name": "yoru",
-    "slug": "yoru",
-    "scheme": "yoru",
-    "version": "1.0.1",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "newArchEnabled": true,
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-      "supportsTablet": true,
-      "package": "com.steel.yoru"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/app-icon.png",
-        "backgroundColor": "transparent"
-      },
-      "package": "com.steel.yoru"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      [
-        "expo-video",
-        {
-          "supportsBackgroundPlayback": true,
-          "supportsPictureInPicture": true
+    "expo": {
+        "name": "yoru",
+        "slug": "yoru",
+        "scheme": "yoru",
+        "version": "1.0.1",
+        "orientation": "portrait",
+        "icon": "./assets/icon3.png",
+        "userInterfaceStyle": "light",
+        "newArchEnabled": true,
+        "splash": {
+            "image": "./assets/splash-icon.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "ios": {
+            "supportsTablet": true,
+            "package": "com.steel.yoru"
+        },
+        "android": {
+            "adaptiveIcon": {
+                "foregroundImage": "./assets/adaptive-icon3.png",
+                "backgroundColor": "#ffffff"
+            },
+            "package": "com.steel.yoru",
+            "usesCleartextTraffic": true
+        },
+        "web": {
+            "favicon": "./assets/favicon.png"
+        },
+        "plugins": [
+            "expo-router",
+            [
+                "expo-video",
+                {
+                    "supportsBackgroundPlayback": true,
+                    "supportsPictureInPicture": true
+                }
+            ]
+        ],
+        "extra": {
+            "eas": {
+                "projectId": "0210bf36-6e27-4942-b4e5-0b4b3a0b4896"
+            }
         }
-      ]
-    ],
-    "extra": {
-      "eas": {
-        "projectId": "0210bf36-6e27-4942-b4e5-0b4b3a0b4896"
-      }
     }
-  }
 }

@@ -49,7 +49,7 @@ const SignUp = () => {
                 >
                     <Image
                         source={images.logo2}
-                        resizeMode="containe"
+                        resizeMode="contain"
                         className="w-[120px] h-[37px]"
                     />
                     <Text
