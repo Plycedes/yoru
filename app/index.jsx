@@ -2,9 +2,12 @@ import { StatusBar } from "expo-status-bar";
 import { Text, View, ScrollView, Image } from "react-native";
 import { Redirect, router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useState, useEffect } from "react";
+import { wakeUpServer } from "../lib/expressApi";
 
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
+import ColdStartLoader from "../components/ColdStartLoader";
 import { useGlobalContext } from "../context/GlobalProvider";
 
 import "react-native-url-polyfill/auto";
@@ -12,6 +15,23 @@ import "react-native-get-random-values";
 
 export default function App() {
     const { isLoading, isLoggedIn } = useGlobalContext();
+
+    const [isColdStarting, setIsColdStarting] = useState(false);
+    const [retryCount, setRetryCount] = useState(0);
+
+    useEffect(() => {
+        const initServer = async () => {
+            setIsColdStarting(true);
+
+            const { isServerReady } = await wakeUpServer((count) => {
+                setRetryCount(count);
+            });
+
+            setIsColdStarting(!isServerReady);
+        };
+
+        initServer();
+    }, []);
 
     if (!isLoading && isLoggedIn) return <Redirect href="/home" />;
     return (
@@ -56,6 +76,13 @@ export default function App() {
                 </View>
             </ScrollView>
             <StatusBar backgroundColor="#161622" style="light" />
+            <ColdStartLoader
+                visible={isColdStarting}
+                message="Waking up the server"
+                subMessage="Your request is being processed"
+                retryCount={retryCount}
+                maxRetries={7}
+            />
         </SafeAreaView>
     );
 }
