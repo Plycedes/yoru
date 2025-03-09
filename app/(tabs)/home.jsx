@@ -7,8 +7,6 @@ import Trending from "../../components/Trending";
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 
-import ColdStartLoader from "../../components/ColdStartLoader.jsx";
-
 import { images } from "../../constants";
 import { getAllPosts } from "../../lib/expressApi.js";
 
