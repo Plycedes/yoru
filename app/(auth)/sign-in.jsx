@@ -42,14 +42,10 @@ const SignIn = () => {
         } catch (error) {
             console.error("Login failed:", error);
 
-            if (error.response) {
-                console.error("Server responded with:", error.response.status, error.response.data);
-                Alert.alert(
-                    "Error",
-                    `Server Error: ${error.response.status} - ${JSON.stringify(
-                        error.response.data
-                    )}`
-                );
+            if (error.response.status == 401) {
+                Alert.alert("Error", "Incorrect email or password.");
+            } else if (error.response.status == 404) {
+                Alert.alert("Error", "User not found.");
             } else if (error.request) {
                 console.error("No response received from server:", error.request);
                 Alert.alert(

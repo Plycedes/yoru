@@ -148,7 +148,7 @@ const Create = () => {
                 />
 
                 <CustomButton
-                    title="Submit& Publish"
+                    title="Submit & Publish"
                     handlePress={submit}
                     containerStyles="mt-7"
                     isLoading={uploading}
