@@ -6,6 +6,7 @@ import * as ImagePicker from "expo-image-picker";
 import { router } from "expo-router";
 
 import FormField from "../../components/FormField";
+import Loader from "../../components/Loader.jsx";
 import CustomButton from "../../components/CustomButton";
 
 import { icons } from "../../constants";
@@ -75,6 +76,7 @@ const Create = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full">
+            <Loader visible={uploading} message="Uploading Video..." />
             <ScrollView className="px-4 my-6">
                 <Text className="text-2xl text-white font-psemibold">Upload Video Hello</Text>
                 <FormField
