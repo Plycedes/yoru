@@ -9,6 +9,7 @@ import DialogBox from "./DialogBox.jsx";
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo, deleteVideo } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider.js";
+import { router } from "expo-router";
 
 const VideoCard = ({
     video: {
@@ -173,8 +174,9 @@ const VideoCard = ({
                     className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
                     activeOpacity={0.7}
                     onPress={() => {
-                        setPlay(true);
-                        player.play();
+                        //setPlay(true);
+                        //player.play();
+                        router.push(`/play/${_id}`);
                     }}
                 >
                     <Image
