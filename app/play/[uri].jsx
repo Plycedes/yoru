@@ -1,4 +1,4 @@
-import { View, Text, FlatList, RefreshControl } from "react-native";
+import { View, Text, FlatList, RefreshControl, BackHandler } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import EmptyState from "../../components/EmptyState";
@@ -8,7 +8,7 @@ import VideoPlayer from "../../components/VideoPlayer.jsx";
 import { useEffect, useState } from "react";
 import useAxios from "../../lib/useAxios.js";
 import { getAllPosts, getVideo } from "../../lib/expressApi.js";
-import { useLocalSearchParams } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 
 const PlayVideo = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -24,10 +24,19 @@ const PlayVideo = () => {
 
     const handleRequest = async () => {
         setRefreshing(true);
+        await refetchVideo();
         await refetch();
         setRefreshing(false);
     };
-    console.log(video);
+
+    useEffect(() => {
+        const backAction = () => {
+            router.replace("/home");
+            return true;
+        };
+        const backHandler = BackHandler.addEventListener("hardwareBackPress", backAction);
+        return () => backHandler.remove();
+    }, []);
 
     return (
         <SafeAreaView className="bg-primary h-full">
@@ -36,12 +45,12 @@ const PlayVideo = () => {
                     <VideoPlayer video={video[0]} />
                 </View>
             )}
-            {/* <FlatList
+            <FlatList
                 data={posts}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
-                    <View className="w-full mt-6 mb-12 px-4">
+                    <View className="w-full mb-2 px-4">
                         <Text className="text-md text-white font-psemibold">
                             Recommended videos
                         </Text>
@@ -56,7 +65,7 @@ const PlayVideo = () => {
                 refreshControl={
                     <RefreshControl refreshing={refreshing} onRefresh={handleRequest} />
                 }
-            /> */}
+            />
         </SafeAreaView>
     );
 };

@@ -8,7 +8,7 @@ import DialogBox from "./DialogBox.jsx";
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo, deleteVideo } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider.js";
-import { router } from "expo-router";
+import { router, usePathname } from "expo-router";
 
 const VideoCard = ({
     video: {
@@ -25,6 +25,7 @@ const VideoCard = ({
     const [isDialogVisible, setDialogVisible] = useState(false);
 
     const { user } = useGlobalContext();
+    const pathName = usePathname();
 
     useEffect(() => {
         (async () => {
@@ -161,7 +162,7 @@ const VideoCard = ({
                 className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
                 activeOpacity={0.7}
                 onPress={() => {
-                    router.push(`/play/${_id}`);
+                    router.replace(`/play/${_id}`);
                 }}
             >
                 <Image
