@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import useAxios from "../../lib/useAxios.js";
 import { getAllPosts, getVideo } from "../../lib/expressApi.js";
 import { router, useLocalSearchParams } from "expo-router";
+import CreateComment from "../../components/CreateComment.jsx";
 
 const PlayVideo = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -46,7 +47,7 @@ const PlayVideo = () => {
                     <VideoPlayer video={video[0]} />
                 </View>
             )}
-            <Comment />
+            <CreateComment />
             <FlatList
                 data={posts.filter((item) => item._id !== uri)}
                 keyExtractor={(item) => item._id}

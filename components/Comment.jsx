@@ -19,9 +19,37 @@ const Comment = ({}) => {
                 </View>
             </View>
             <View className="flex-col flex-1">
-                <View className="flex-row flex-1 justify-between">
+                <View className="flex-row justify-between">
                     <Text className="text-md font-psemibold text-white">Username</Text>
-                    <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
+                    {showDropdown && (
+                        <View
+                            className="absolute bottom-7 right-0 bg-gray-800 rounded-md shadow-lg z-10"
+                            style={{ width: 150 }}
+                        >
+                            <TouchableOpacity
+                                className="px-4 py-2"
+                                onPress={() => {
+                                    setShowDropdown(false);
+                                }}
+                            >
+                                <Text className="text-white text-sm">Copy Prompt</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity
+                                className="px-4 py-2"
+                                onPress={() => {
+                                    setShowDropdown(false);
+                                }}
+                            >
+                                <Text className="text-white text-sm">Copy Prompt</Text>
+                            </TouchableOpacity>
+                        </View>
+                    )}
+                    <TouchableOpacity
+                        onPress={() => {
+                            setShowDropdown(!showDropdown);
+                        }}
+                        activeOpacity={0.7}
+                    >
                         <Image
                             source={{ uri: icons.menu }}
                             className="w-4 h-4"
