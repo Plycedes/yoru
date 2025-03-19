@@ -3,6 +3,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
+import VideoPlayer from "../../components/VideoPlayer.jsx";
 
 import { useEffect, useState } from "react";
 import useAxios from "../../lib/useAxios.js";
@@ -30,6 +31,7 @@ const PlayVideo = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full">
+            {video.length > 0 && <VideoPlayer video={video[0]} />}
             {/* <FlatList
                 data={posts}
                 keyExtractor={(item) => item._id}
