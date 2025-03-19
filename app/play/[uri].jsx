@@ -31,7 +31,11 @@ const PlayVideo = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full">
-            {video.length > 0 && <VideoPlayer video={video[0]} />}
+            {video.length > 0 && (
+                <View className="mt-1">
+                    <VideoPlayer video={video[0]} />
+                </View>
+            )}
             {/* <FlatList
                 data={posts}
                 keyExtractor={(item) => item._id}

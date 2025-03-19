@@ -1,6 +1,5 @@
 import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useVideoPlayer, VideoView } from "expo-video";
 import Toast from "react-native-toast-message";
 import * as Clipboard from "expo-clipboard";
 
@@ -21,14 +20,11 @@ const VideoCard = ({
         creatorDetails: { _id: creatorId, username, avatar },
     },
 }) => {
-    const [play, setPlay] = useState(false);
     const [liked, setLiked] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [isDialogVisible, setDialogVisible] = useState(false);
 
     const { user } = useGlobalContext();
-
-    const player = useVideoPlayer({ uri: video });
 
     useEffect(() => {
         (async () => {
@@ -160,37 +156,21 @@ const VideoCard = ({
                     )}
                 </View>
             </View>
-            {play ? (
-                <VideoView
-                    className="rounded-xl w-full h-60"
-                    player={player}
-                    contentFit="cover"
-                    nativeControls
-                    allowsPictureInPicture
-                    allowsFullscreen
+
+            <TouchableOpacity
+                className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
+                activeOpacity={0.7}
+                onPress={() => {
+                    router.push(`/play/${_id}`);
+                }}
+            >
+                <Image
+                    source={{ uri: thumbnail }}
+                    className="w-full h-full rounded-xl mt-3"
+                    resizeMode="cover"
                 />
-            ) : (
-                <TouchableOpacity
-                    className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
-                    activeOpacity={0.7}
-                    onPress={() => {
-                        //setPlay(true);
-                        //player.play();
-                        router.push(`/play/${_id}`);
-                    }}
-                >
-                    <Image
-                        source={{ uri: thumbnail }}
-                        className="w-full h-full rounded-xl mt-3"
-                        resizeMode="cover"
-                    />
-                    <Image
-                        source={icons.play}
-                        className="w-12 h-12 absolute"
-                        resizeMode="contain"
-                    />
-                </TouchableOpacity>
-            )}
+                <Image source={icons.play} className="w-12 h-12 absolute" resizeMode="contain" />
+            </TouchableOpacity>
         </View>
     );
 };

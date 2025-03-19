@@ -81,88 +81,10 @@ const VideoPlayer = ({
     };
 
     return (
-        <View className="flex-col items-center px-4 mb-5">
-            <DialogBox
-                isVisible={isDialogVisible}
-                title="Are you sure you want to delete this video?"
-                onConfirm={deleteCurrentVideo}
-                closeDialog={closeDialog}
-            />
-            <View className="flex-row gap-3 items-start">
-                <View className="justify-center items-center flex-row flex-1">
-                    <View
-                        className="w-[46px] h-[46px] rounded-lg border border-secondary
-                    justify-center items-center p-0.5"
-                    >
-                        <Image
-                            source={{ uri: avatar }}
-                            className="w-full h-full rounded-lg"
-                            resizeMode="cover"
-                        />
-                    </View>
-                    <View className="justify-center flex-1 ml-3 gap-y-1">
-                        <Text className="text-white font-psemibold text-sm" numberOfLines={1}>
-                            {title}
-                        </Text>
-                        <Text className="text-gray-100 font-pregular text-xs" numberOfLines={1}>
-                            {username}
-                        </Text>
-                    </View>
-                </View>
-                <View className="pt-2 relative">
-                    <TouchableOpacity
-                        onPress={() => setShowDropdown(!showDropdown)}
-                        activeOpacity={0.7}
-                    >
-                        <Image
-                            source={{ uri: icons.menu }}
-                            className="w-5 h-5"
-                            resizeMode="contain"
-                        />
-                    </TouchableOpacity>
-
-                    {/* Dropdown Menu */}
-                    {showDropdown && (
-                        <View
-                            className="absolute top-10 right-0 bg-gray-800 rounded-md shadow-lg z-10"
-                            style={{ width: 150 }}
-                        >
-                            {!liked ? (
-                                <TouchableOpacity
-                                    className="px-4 py-2"
-                                    onPress={async () => {
-                                        setShowDropdown(false);
-                                        await likeCurrentVideo();
-                                    }}
-                                >
-                                    <Text className="text-white text-sm">Bookmark</Text>
-                                </TouchableOpacity>
-                            ) : (
-                                <TouchableOpacity
-                                    className="px-4 py-2"
-                                    onPress={async () => {
-                                        setShowDropdown(false);
-                                        await unlikeCurrentVideo();
-                                    }}
-                                >
-                                    <Text className="text-white text-sm">Unmark</Text>
-                                </TouchableOpacity>
-                            )}
-                            {user._id === creatorId && (
-                                <TouchableOpacity className="px-4 py-2" onPress={showDialog}>
-                                    <Text className="text-white text-sm">Delete video</Text>
-                                </TouchableOpacity>
-                            )}
-                            <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>
-                                <Text className="text-white text-sm">Copy Prompt</Text>
-                            </TouchableOpacity>
-                        </View>
-                    )}
-                </View>
-            </View>
+        <View>
             {play ? (
                 <VideoView
-                    className="rounded-xl w-full h-60"
+                    className=" w-full h-60"
                     player={player}
                     contentFit="cover"
                     nativeControls
@@ -171,7 +93,7 @@ const VideoPlayer = ({
                 />
             ) : (
                 <TouchableOpacity
-                    className="w-full h-60 rounded-xl mt-3 relative justify-center items-center"
+                    className="w-full h-60  relative justify-center items-center"
                     activeOpacity={0.7}
                     onPress={() => {
                         setPlay(true);
@@ -180,7 +102,7 @@ const VideoPlayer = ({
                 >
                     <Image
                         source={{ uri: thumbnail }}
-                        className="w-full h-full rounded-xl mt-3"
+                        className="w-full h-full"
                         resizeMode="cover"
                     />
                     <Image
@@ -190,6 +112,88 @@ const VideoPlayer = ({
                     />
                 </TouchableOpacity>
             )}
+            <View className="flex-col items-center px-4 py-2 mb-5">
+                <DialogBox
+                    isVisible={isDialogVisible}
+                    title="Are you sure you want to delete this video?"
+                    onConfirm={deleteCurrentVideo}
+                    closeDialog={closeDialog}
+                />
+                <View></View>
+
+                <View className="flex-row gap-3 items-start">
+                    <View className="justify-center items-center flex-row flex-1">
+                        <View
+                            className="w-[46px] h-[46px] rounded-lg border border-secondary
+                    justify-center items-center p-0.5"
+                        >
+                            <Image
+                                source={{ uri: avatar }}
+                                className="w-full h-full rounded-lg"
+                                resizeMode="cover"
+                            />
+                        </View>
+                        <View className="justify-center flex-1 ml-3 gap-y-1">
+                            <Text className="text-white font-psemibold text-sm" numberOfLines={1}>
+                                {title}
+                            </Text>
+                            <Text className="text-gray-100 font-pregular text-xs" numberOfLines={1}>
+                                {username}
+                            </Text>
+                        </View>
+                    </View>
+                    <View className="pt-2 relative">
+                        <TouchableOpacity
+                            onPress={() => setShowDropdown(!showDropdown)}
+                            activeOpacity={0.7}
+                        >
+                            <Image
+                                source={{ uri: icons.menu }}
+                                className="w-5 h-5"
+                                resizeMode="contain"
+                            />
+                        </TouchableOpacity>
+
+                        {/* Dropdown Menu */}
+                        {showDropdown && (
+                            <View
+                                className="absolute top-10 right-0 bg-gray-800 rounded-md shadow-lg z-10"
+                                style={{ width: 150 }}
+                            >
+                                {!liked ? (
+                                    <TouchableOpacity
+                                        className="px-4 py-2"
+                                        onPress={async () => {
+                                            setShowDropdown(false);
+                                            await likeCurrentVideo();
+                                        }}
+                                    >
+                                        <Text className="text-white text-sm">Bookmark</Text>
+                                    </TouchableOpacity>
+                                ) : (
+                                    <TouchableOpacity
+                                        className="px-4 py-2"
+                                        onPress={async () => {
+                                            setShowDropdown(false);
+                                            await unlikeCurrentVideo();
+                                        }}
+                                    >
+                                        <Text className="text-white text-sm">Unmark</Text>
+                                    </TouchableOpacity>
+                                )}
+                                {user._id === creatorId && (
+                                    <TouchableOpacity className="px-4 py-2" onPress={showDialog}>
+                                        <Text className="text-white text-sm">Delete video</Text>
+                                    </TouchableOpacity>
+                                )}
+                                <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>
+                                    <Text className="text-white text-sm">Copy Prompt</Text>
+                                </TouchableOpacity>
+                            </View>
+                        )}
+                    </View>
+                </View>
+            </View>
         </View>
     );
 };
