@@ -4,6 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 import VideoPlayer from "../../components/VideoPlayer.jsx";
+import Comment from "../../components/Comment.jsx";
 
 import { useEffect, useState } from "react";
 import useAxios from "../../lib/useAxios.js";
@@ -45,8 +46,9 @@ const PlayVideo = () => {
                     <VideoPlayer video={video[0]} />
                 </View>
             )}
+            <Comment />
             <FlatList
-                data={posts}
+                data={posts.filter((item) => item._id !== uri)}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (

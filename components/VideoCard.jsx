@@ -150,7 +150,13 @@ const VideoCard = ({
                                     <Text className="text-white text-sm">Delete video</Text>
                                 </TouchableOpacity>
                             )}
-                            <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>
+                            <TouchableOpacity
+                                className="px-4 py-2"
+                                onPress={() => {
+                                    copyPrompt();
+                                    showDropdown(false);
+                                }}
+                            >
                                 <Text className="text-white text-sm">Copy Prompt</Text>
                             </TouchableOpacity>
                         </View>
