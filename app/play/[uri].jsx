@@ -11,6 +11,7 @@ import useAxios from "../../lib/useAxios.js";
 import { getAllComments, getAllPosts, getVideo } from "../../lib/expressApi.js";
 import { router, useLocalSearchParams } from "expo-router";
 import CreateComment from "../../components/CreateComment.jsx";
+import Loader from "../../components/Loader.jsx";
 
 const PlayVideo = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -18,8 +19,8 @@ const PlayVideo = () => {
 
     const { uri } = useLocalSearchParams();
     const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
-    const { data: comments } = useAxios(getAllComments, uri);
-    console.log(comments);
+    const { data: comments } = useAxios(getAllComments, { videoId: uri }, 1, 10);
+
     const {
         data: video,
         isLoading: loadingVideo,
@@ -50,14 +51,19 @@ const PlayVideo = () => {
                 </View>
             )}
             <TouchableOpacity className="mx-2 p-2 border border-gray-800 rounded-xl">
-                <Text className="text-gray-100 font-pmedium">Comments</Text>
+                <Text className="text-gray-100 font-pmedium mb-1">Comments</Text>
+                {comments.length > 0 ? (
+                    <Comment comment={comments[0]} />
+                ) : (
+                    <Text className="text-pregular text-gray-100">No comments</Text>
+                )}
             </TouchableOpacity>
             <FlatList
                 data={posts.filter((item) => item._id !== uri)}
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => <VideoCard video={item} />}
                 ListHeaderComponent={() => (
-                    <View className="w-full mb-2 px-4">
+                    <View className="w-full my-3 px-4">
                         <Text className="text-md text-white font-psemibold">
                             Recommended videos
                         </Text>

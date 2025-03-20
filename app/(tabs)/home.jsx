@@ -17,7 +17,7 @@ import { useGlobalContext } from "../../context/GlobalProvider";
 // import { useVideoPlayer, VideoView } from "expo-video";
 
 const Home = () => {
-    const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
+    const { data: posts, isLoading, refetch } = useAxios(getAllPosts, {}, 1, 10);
     const {
         data: latestPosts,
         isLoading: latestLoading,
