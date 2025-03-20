@@ -1,4 +1,4 @@
-import { View, Text, FlatList, RefreshControl, BackHandler } from "react-native";
+import { View, Text, FlatList, RefreshControl, BackHandler, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import EmptyState from "../../components/EmptyState";
@@ -8,16 +8,18 @@ import Comment from "../../components/Comment.jsx";
 
 import { useEffect, useState } from "react";
 import useAxios from "../../lib/useAxios.js";
-import { getAllPosts, getVideo } from "../../lib/expressApi.js";
+import { getAllComments, getAllPosts, getVideo } from "../../lib/expressApi.js";
 import { router, useLocalSearchParams } from "expo-router";
 import CreateComment from "../../components/CreateComment.jsx";
 
 const PlayVideo = () => {
     const [refreshing, setRefreshing] = useState(false);
+    const [showComments, setShowComments] = useState(false);
 
     const { uri } = useLocalSearchParams();
     const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
-
+    const { data: comments } = useAxios(getAllComments, uri);
+    console.log(comments);
     const {
         data: video,
         isLoading: loadingVideo,
@@ -47,7 +49,9 @@ const PlayVideo = () => {
                     <VideoPlayer video={video[0]} />
                 </View>
             )}
-            <CreateComment />
+            <TouchableOpacity className="mx-2 p-2 border border-gray-800 rounded-xl">
+                <Text className="text-gray-100 font-pmedium">Comments</Text>
+            </TouchableOpacity>
             <FlatList
                 data={posts.filter((item) => item._id !== uri)}
                 keyExtractor={(item) => item._id}
