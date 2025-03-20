@@ -1,8 +1,29 @@
-import { View, Text, TextInput } from "react-native";
+import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
+import { createComment } from "../lib/expressApi";
+import Toast from "react-native-toast-message";
 
-const CreateComment = () => {
-    const [comment, setComment] = useState();
+const CreateComment = (videoId) => {
+    const [comment, setComment] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handePress = async () => {
+        try {
+            setIsLoading(true);
+            await createComment({ comment, videoId });
+            Toast.show({
+                type: "success",
+                text1: `Comment added successfully`,
+            });
+        } catch (error) {
+            Toast.show({
+                type: "success",
+                text1: `Error: ${error.message}`,
+            });
+        } finally {
+            setIsLoading(false);
+        }
+    };
     return (
         <View className="p-4">
             <View
@@ -17,6 +38,14 @@ const CreateComment = () => {
                     onChangeText={(e) => setComment(e)}
                 />
             </View>
+            <TouchableOpacity
+                className={`bg-secondary rounded-lg w-20 h-8 mt-1 justify-center 
+                            items-center ${isLoading ? "opacity-50" : ""}`}
+                disabled={isLoading}
+                onPress={handePress}
+            >
+                <Text className="text-primary font-semibold">Comment</Text>
+            </TouchableOpacity>
         </View>
     );
 };
