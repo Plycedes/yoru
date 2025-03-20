@@ -12,6 +12,7 @@ import { getAllComments, getAllPosts, getVideo } from "../../lib/expressApi.js";
 import { router, useLocalSearchParams } from "expo-router";
 import CreateComment from "../../components/CreateComment.jsx";
 import Loader from "../../components/Loader.jsx";
+import Comments from "../../components/Comments.jsx";
 
 const PlayVideo = () => {
     const [refreshing, setRefreshing] = useState(false);
@@ -50,35 +51,46 @@ const PlayVideo = () => {
                     <VideoPlayer video={video[0]} />
                 </View>
             )}
-            <TouchableOpacity className="mx-2 p-2 border border-gray-800 rounded-xl">
-                <Text className="text-gray-100 font-pmedium mb-1">Comments</Text>
-                {comments.length > 0 ? (
-                    <Comment comment={comments[0]} />
-                ) : (
-                    <Text className="text-pregular text-gray-100">No comments</Text>
-                )}
-            </TouchableOpacity>
-            <FlatList
-                data={posts.filter((item) => item._id !== uri)}
-                keyExtractor={(item) => item._id}
-                renderItem={({ item }) => <VideoCard video={item} />}
-                ListHeaderComponent={() => (
-                    <View className="w-full my-3 px-4">
-                        <Text className="text-md text-white font-psemibold">
-                            Recommended videos
-                        </Text>
-                    </View>
-                )}
-                ListEmptyComponent={() => (
-                    <EmptyState
-                        title="No Videos Found"
-                        subtitle="No search results found for this query"
+            {showComments ? (
+                <Comments isVisible={setShowComments} />
+            ) : (
+                <View>
+                    <TouchableOpacity
+                        className="mx-2 p-2 border border-gray-800 rounded-xl"
+                        onPress={() => {
+                            setShowComments(true);
+                        }}
+                    >
+                        <Text className="text-gray-100 font-pmedium mb-1">Comments</Text>
+                        {comments.length > 0 ? (
+                            <Comment comment={comments[0]} />
+                        ) : (
+                            <Text className="text-pregular text-gray-100">No comments</Text>
+                        )}
+                    </TouchableOpacity>
+                    <FlatList
+                        data={posts.filter((item) => item._id !== uri)}
+                        keyExtractor={(item) => item._id}
+                        renderItem={({ item }) => <VideoCard video={item} />}
+                        ListHeaderComponent={() => (
+                            <View className="w-full my-3 px-4">
+                                <Text className="text-md text-white font-psemibold">
+                                    Recommended videos
+                                </Text>
+                            </View>
+                        )}
+                        ListEmptyComponent={() => (
+                            <EmptyState
+                                title="No Videos Found"
+                                subtitle="No search results found for this query"
+                            />
+                        )}
+                        refreshControl={
+                            <RefreshControl refreshing={refreshing} onRefresh={handleRequest} />
+                        }
                     />
-                )}
-                refreshControl={
-                    <RefreshControl refreshing={refreshing} onRefresh={handleRequest} />
-                }
-            />
+                </View>
+            )}
         </SafeAreaView>
     );
 };
