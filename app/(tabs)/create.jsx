@@ -78,7 +78,7 @@ const Create = () => {
         <SafeAreaView className="bg-primary h-full">
             <Loader visible={uploading} message="Uploading Video..." />
             <ScrollView className="px-4 my-6">
-                <Text className="text-2xl text-white font-psemibold">Upload Video Hello</Text>
+                <Text className="text-2xl text-white font-psemibold">Upload Video</Text>
                 <FormField
                     title="Video Title"
                     value={form.title}

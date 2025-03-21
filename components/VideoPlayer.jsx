@@ -53,29 +53,6 @@ const VideoPlayer = ({
         });
     };
 
-    const deleteCurrentVideo = async () => {
-        try {
-            await deleteVideo({ vidId: _id });
-            Toast.show({
-                type: "success",
-                text1: "Successfully deleted video",
-            });
-        } catch (error) {
-            Toast.show({
-                type: "success",
-                text1: `Error: ${error.message}`,
-            });
-        }
-    };
-
-    const showDialog = () => {
-        setDialogVisible(true);
-    };
-
-    const closeDialog = () => {
-        setDialogVisible(false);
-    };
-
     const copyPrompt = async () => {
         await Clipboard.setStringAsync(prompt);
     };
@@ -113,14 +90,6 @@ const VideoPlayer = ({
                 </TouchableOpacity>
             )}
             <View className="flex-col items-center px-4 py-2 mb-5">
-                <DialogBox
-                    isVisible={isDialogVisible}
-                    title="Are you sure you want to delete this video?"
-                    onConfirm={deleteCurrentVideo}
-                    closeDialog={closeDialog}
-                />
-                <View></View>
-
                 <View className="flex-row gap-3 items-start">
                     <View className="justify-center items-center flex-row flex-1">
                         <View
@@ -179,11 +148,6 @@ const VideoPlayer = ({
                                         }}
                                     >
                                         <Text className="text-white text-sm">Unmark</Text>
-                                    </TouchableOpacity>
-                                )}
-                                {user._id === creatorId && (
-                                    <TouchableOpacity className="px-4 py-2" onPress={showDialog}>
-                                        <Text className="text-white text-sm">Delete video</Text>
                                     </TouchableOpacity>
                                 )}
                                 <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>

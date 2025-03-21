@@ -62,7 +62,7 @@ const Profile = () => {
                 <FlatList
                     data={posts}
                     keyExtractor={(item) => item._id}
-                    renderItem={({ item }) => <VideoCard video={item} />}
+                    renderItem={({ item }) => <VideoCard video={item} refetch={refetchPosts} />}
                     ListHeaderComponent={() => (
                         <View className="w-full justify-center items-center mt-6 mb-12 px-4">
                             <View className="w-full items-end">

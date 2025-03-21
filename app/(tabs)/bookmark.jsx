@@ -25,7 +25,7 @@ const Bookmark = () => {
             <FlatList
                 data={posts}
                 keyExtractor={(item) => item._id}
-                renderItem={({ item }) => <VideoCard video={item} />}
+                renderItem={({ item }) => <VideoCard video={item} refetch={refetch} />}
                 ListHeaderComponent={() => (
                     <View className="w-full mt-6 mb-12 px-4">
                         <Text className="text-2xl text-white font-psemibold">Bookmarks</Text>

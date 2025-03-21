@@ -8,7 +8,7 @@ import DialogBox from "./DialogBox.jsx";
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo, deleteVideo } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider.js";
-import { router, usePathname } from "expo-router";
+import { router } from "expo-router";
 
 const VideoCard = ({
     video: {
@@ -19,13 +19,13 @@ const VideoCard = ({
         prompt,
         creatorDetails: { _id: creatorId, username, avatar },
     },
+    refetch,
 }) => {
     const [liked, setLiked] = useState(false);
     const [showDropdown, setShowDropdown] = useState(false);
     const [isDialogVisible, setDialogVisible] = useState(false);
 
     const { user } = useGlobalContext();
-    const pathName = usePathname();
 
     useEffect(() => {
         (async () => {
@@ -53,6 +53,7 @@ const VideoCard = ({
     const deleteCurrentVideo = async () => {
         try {
             await deleteVideo({ vidId: _id });
+            await refetch();
             Toast.show({
                 type: "success",
                 text1: "Successfully deleted video",

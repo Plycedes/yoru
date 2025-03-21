@@ -6,11 +6,9 @@ const ColdStartLoader = ({
     message = "Server is starting up...",
     subMessage = "This may take up to a minute",
     retryCount = 0,
-    maxRetries = 7,
+    maxRetries = 10,
 }) => {
     if (!visible) return null;
-
-    const progressPercentage = Math.min((retryCount / maxRetries) * 100, 100);
 
     return (
         <View className="absolute w-full h-full inset-0 z-50 flex items-center justify-center bg-black/70">
