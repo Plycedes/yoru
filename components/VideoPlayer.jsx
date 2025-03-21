@@ -88,11 +88,59 @@ const VideoPlayer = ({
                     />
                 </TouchableOpacity>
             )}
+            <View className="mx-4 my-2 flex-row justify-between">
+                <Text className="text-white font-psemibold text-lg" numberOfLines={1}>
+                    {title}
+                </Text>
+                <TouchableOpacity
+                    onPress={() => setShowDropdown(!showDropdown)}
+                    activeOpacity={0.7}
+                >
+                    <Image
+                        source={{ uri: icons.menu }}
+                        className="w-5 h-5 mt-1"
+                        resizeMode="contain"
+                    />
+                </TouchableOpacity>
+                {/* Dropdown Menu */}
+                {showDropdown && (
+                    <View
+                        className="absolute top-10 right-0 bg-gray-800 rounded-md shadow-lg z-10"
+                        style={{ width: 150 }}
+                    >
+                        {!liked ? (
+                            <TouchableOpacity
+                                className="px-4 py-2"
+                                onPress={async () => {
+                                    setShowDropdown(false);
+                                    await likeCurrentVideo();
+                                }}
+                            >
+                                <Text className="text-white text-sm">Bookmark</Text>
+                            </TouchableOpacity>
+                        ) : (
+                            <TouchableOpacity
+                                className="px-4 py-2"
+                                onPress={async () => {
+                                    setShowDropdown(false);
+                                    await unlikeCurrentVideo();
+                                }}
+                            >
+                                <Text className="text-white text-sm">Unmark</Text>
+                            </TouchableOpacity>
+                        )}
+                        <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>
+                            <Text className="text-white text-sm">Copy Prompt</Text>
+                        </TouchableOpacity>
+                    </View>
+                )}
+            </View>
+
             <View className="flex-col items-center px-4 py-2 mb-5">
                 <View className="flex-row gap-3 items-start">
                     <View className="justify-center items-center flex-row flex-1">
                         <View
-                            className="w-[46px] h-[46px] rounded-lg border border-secondary
+                            className="w-[36px] h-[36px] rounded-lg border border-secondary
                     justify-center items-center p-0.5"
                         >
                             <Image
@@ -102,59 +150,15 @@ const VideoPlayer = ({
                             />
                         </View>
                         <View className="justify-center flex-1 ml-3 gap-y-1">
-                            <Text className="text-white font-psemibold text-sm" numberOfLines={1}>
-                                {title}
-                            </Text>
-                            <Text className="text-gray-100 font-pregular text-xs" numberOfLines={1}>
+                            <Text
+                                className="text-gray-100 font-psemibold text-md"
+                                numberOfLines={1}
+                            >
                                 @{username}
                             </Text>
                         </View>
                     </View>
-                    <View className="pt-2 relative">
-                        <TouchableOpacity
-                            onPress={() => setShowDropdown(!showDropdown)}
-                            activeOpacity={0.7}
-                        >
-                            <Image
-                                source={{ uri: icons.menu }}
-                                className="w-5 h-5"
-                                resizeMode="contain"
-                            />
-                        </TouchableOpacity>
-
-                        {/* Dropdown Menu */}
-                        {showDropdown && (
-                            <View
-                                className="absolute top-10 right-0 bg-gray-800 rounded-md shadow-lg z-10"
-                                style={{ width: 150 }}
-                            >
-                                {!liked ? (
-                                    <TouchableOpacity
-                                        className="px-4 py-2"
-                                        onPress={async () => {
-                                            setShowDropdown(false);
-                                            await likeCurrentVideo();
-                                        }}
-                                    >
-                                        <Text className="text-white text-sm">Bookmark</Text>
-                                    </TouchableOpacity>
-                                ) : (
-                                    <TouchableOpacity
-                                        className="px-4 py-2"
-                                        onPress={async () => {
-                                            setShowDropdown(false);
-                                            await unlikeCurrentVideo();
-                                        }}
-                                    >
-                                        <Text className="text-white text-sm">Unmark</Text>
-                                    </TouchableOpacity>
-                                )}
-                                <TouchableOpacity className="px-4 py-2" onPress={copyPrompt}>
-                                    <Text className="text-white text-sm">Copy Prompt</Text>
-                                </TouchableOpacity>
-                            </View>
-                        )}
-                    </View>
+                    <View className="pt-2 relative"></View>
                 </View>
             </View>
         </View>

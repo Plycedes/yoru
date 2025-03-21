@@ -9,7 +9,13 @@ import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 import DialogBox from "../../components/DialogBox.jsx";
 
-import { getUserPosts, getBookmarksCount, logoutUser } from "../../lib/expressApi.js";
+import {
+    getUserPosts,
+    getBookmarksCount,
+    logoutUser,
+    followers,
+    following,
+} from "../../lib/expressApi.js";
 import useAxios from "../../lib/useAxios.js";
 import { icons } from "../../constants";
 
@@ -25,6 +31,8 @@ const Profile = () => {
 
     const { data: posts, refetch: refetchPosts } = useAxios(getUserPosts);
     const { data: bookmarks, refetch: refetchBookmarks } = useAxios(getBookmarksCount);
+    const { data: followersCount, refetch: refetchFollowers } = useAxios(followers);
+    const { data: followingCount, refetch: refetchFollowing } = useAxios(following);
 
     const logout = async () => {
         await logoutUser();
@@ -38,6 +46,8 @@ const Profile = () => {
         setRefreshing(true);
         await refetchPosts();
         await refetchBookmarks();
+        await refetchFollowers();
+        await refetchFollowing();
         setRefreshing(false);
     };
 
@@ -100,12 +110,24 @@ const Profile = () => {
                                 <InfoBox
                                     title={posts.length || 0}
                                     subtitle="Posts"
-                                    containerStyles="mr-10"
+                                    containerStyles="mr-4"
                                     titleStyles="text-lg"
                                 />
                                 <InfoBox
                                     title={bookmarks.bookmarksCount || 0}
                                     subtitle="Bookmarks"
+                                    containerStyles="mr-4"
+                                    titleStyles="text-lg"
+                                />
+                                <InfoBox
+                                    title={followersCount}
+                                    subtitle="Followers"
+                                    containerStyles="mr-4"
+                                    titleStyles="text-lg"
+                                />
+                                <InfoBox
+                                    title={followingCount}
+                                    subtitle="Following"
                                     containerStyles=""
                                     titleStyles="text-lg"
                                 />
