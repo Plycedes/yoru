@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { createComment } from "../lib/expressApi";
 import Toast from "react-native-toast-message";
 
-const CreateComment = (videoId) => {
+const CreateComment = ({ videoId, refetch }) => {
     const [comment, setComment] = useState("");
     const [isLoading, setIsLoading] = useState(false);
 
@@ -11,6 +11,7 @@ const CreateComment = (videoId) => {
         try {
             setIsLoading(true);
             await createComment({ comment, videoId });
+            await refetch();
             Toast.show({
                 type: "success",
                 text1: `Comment added successfully`,
@@ -25,7 +26,7 @@ const CreateComment = (videoId) => {
         }
     };
     return (
-        <View className="p-4">
+        <View className="pb-4">
             <View
                 className="border-1 border-black-200 w-full h-11 px-2 bg-black-100
                         rounded-xl focus:border-secondary items-center flex-row "

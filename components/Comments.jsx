@@ -1,7 +1,11 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, Text, TouchableOpacity, Image, FlatList, RefreshControl } from "react-native";
 import React from "react";
 
-const Comments = ({ isVisible, comments }) => {
+import Comment from "./Comment";
+import CreateComment from "./CreateComment";
+import EmptyState from "./EmptyState";
+
+const Comments = ({ isVisible, comments, refreshing, refetch, videoId }) => {
     return (
         <View className="px-4 flex-col">
             <View className="flex-row justify-between  items-center mb-2">
@@ -15,6 +19,30 @@ const Comments = ({ isVisible, comments }) => {
                     />
                 </TouchableOpacity>
             </View>
+            <FlatList
+                data={comments}
+                keyExtractor={(item) => item._id}
+                renderItem={({ item }) => (
+                    <View className="mb-3">
+                        <Comment comment={item} />
+                    </View>
+                )}
+                ListHeaderComponent={() => <CreateComment videoId={videoId} refetch={refetch} />}
+                ListEmptyComponent={() => (
+                    <View className="flex mt-10 justify-center items-center">
+                        <Text className="text-xl font-psemibold text-white">No comments found</Text>
+                        <Text className="font-pmedium text-sm text-gray-100">
+                            Be the first to write a comment
+                        </Text>
+                    </View>
+                )}
+                refreshControl={
+                    <RefreshControl
+                        refreshing={refreshing}
+                        onRefresh={async () => await refetch()}
+                    />
+                }
+            />
         </View>
     );
 };

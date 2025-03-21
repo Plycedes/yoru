@@ -9,6 +9,7 @@ const Comment = ({
         comment,
         writer: { _id: writerId, username, avatar },
     },
+    refetch,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
     return (

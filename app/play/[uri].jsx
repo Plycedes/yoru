@@ -20,7 +20,11 @@ const PlayVideo = () => {
 
     const { uri } = useLocalSearchParams();
     const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
-    const { data: comments } = useAxios(getAllComments, { videoId: uri }, 1, 10);
+    const {
+        data: comments,
+        isLoading: loadingComments,
+        refetch: refetchComments,
+    } = useAxios(getAllComments, { videoId: uri }, 1, 10);
 
     const {
         data: video,
@@ -46,13 +50,20 @@ const PlayVideo = () => {
 
     return (
         <SafeAreaView className="bg-primary h-full">
+            <Loader visible={loadingVideo} />
             {video.length > 0 && (
                 <View className="mt-1">
                     <VideoPlayer video={video[0]} />
                 </View>
             )}
             {showComments ? (
-                <Comments isVisible={setShowComments} />
+                <Comments
+                    isVisible={setShowComments}
+                    comments={comments}
+                    refreshing={loadingComments}
+                    refetch={refetchComments}
+                    videoId={uri}
+                />
             ) : (
                 <View>
                     <TouchableOpacity
