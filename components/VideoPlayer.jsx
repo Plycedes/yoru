@@ -9,7 +9,6 @@ import DialogBox from "./DialogBox.jsx";
 import { icons } from "../constants";
 import { likeVideo, videoAlreadyLiked, unlikeVideo, deleteVideo } from "../lib/expressApi.js";
 import { useGlobalContext } from "../context/GlobalProvider.js";
-import { router } from "expo-router";
 
 const VideoPlayer = ({
     video: {
@@ -107,7 +106,7 @@ const VideoPlayer = ({
                                 {title}
                             </Text>
                             <Text className="text-gray-100 font-pregular text-xs" numberOfLines={1}>
-                                {username}
+                                @{username}
                             </Text>
                         </View>
                     </View>

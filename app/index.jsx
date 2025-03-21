@@ -81,7 +81,7 @@ export default function App() {
                 message="Waking up the server"
                 subMessage="Your request is being processed"
                 retryCount={retryCount}
-                maxRetries={7}
+                maxRetries={10}
             />
         </SafeAreaView>
     );

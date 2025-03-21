@@ -103,7 +103,7 @@ const VideoCard = ({
                             {title}
                         </Text>
                         <Text className="text-gray-100 font-pregular text-xs" numberOfLines={1}>
-                            {username}
+                            @{username}
                         </Text>
                     </View>
                 </View>

@@ -1,5 +1,6 @@
 import { View, Text, FlatList, RefreshControl, BackHandler, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { StatusBar } from "expo-status-bar";
 
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
@@ -102,6 +103,7 @@ const PlayVideo = () => {
                     />
                 </View>
             )}
+            <StatusBar backgroundColor="#161622" style="light" />
         </SafeAreaView>
     );
 };
