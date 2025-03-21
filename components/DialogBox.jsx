@@ -1,8 +1,21 @@
-import React from "react";
+import React, { useState } from "react";
 import { View, Text, TouchableOpacity } from "react-native";
 import Modal from "react-native-modal";
 
-const DialogBox = ({ isVisible, title = "Are you sure?", onConfirm, onCancel, closeDialog }) => {
+const DialogBox = ({ isVisible, title = "Are you sure?", onConfirm, closeDialog }) => {
+    const [isLoading, setIsLoading] = useState(false);
+
+    const handlePress = async () => {
+        setIsLoading(true);
+        try {
+            await onConfirm();
+            closeDialog();
+        } catch (error) {
+            throw error;
+        } finally {
+            setIsLoading(false);
+        }
+    };
     return (
         <View className="flex justify-center items-center">
             <Modal
@@ -20,14 +33,16 @@ const DialogBox = ({ isVisible, title = "Are you sure?", onConfirm, onCancel, cl
                     </Text>
                     <View className="flex-row justify-between w-full">
                         <TouchableOpacity
-                            onPress={() => {
-                                onConfirm();
+                            onPress={async () => {
+                                setIsLoading(true);
+                                await onConfirm();
                                 closeDialog();
                             }}
                             activeOpacity={0.7}
+                            disabled={isLoading}
                             className={`bg-secondary rounded-xl w-20 h-10
                                 justify-center items-center 
-                                `}
+                                ${isLoading ? "opacity-50" : ""}`}
                         >
                             <Text
                                 className={`text-primary font-psemibold
