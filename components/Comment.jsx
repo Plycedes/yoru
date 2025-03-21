@@ -2,6 +2,9 @@ import { View, Text, Image, TouchableOpacity } from "react-native";
 import React, { useState } from "react";
 
 import { icons } from "../constants";
+import { useGlobalContext } from "../context/GlobalProvider";
+
+import EditComment from "./EditComment";
 
 const Comment = ({
     comment: {
@@ -12,6 +15,8 @@ const Comment = ({
     refetch,
 }) => {
     const [showDropdown, setShowDropdown] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const { user } = useGlobalContext();
     return (
         <View className="flex-row w-full gap-2 px-3">
             <View>
@@ -33,21 +38,24 @@ const Comment = ({
                             className="absolute bottom-7 right-0 bg-gray-800 rounded-md shadow-lg z-10"
                             style={{ width: 150 }}
                         >
+                            {user._id == writerId && (
+                                <TouchableOpacity
+                                    className="px-4 py-2"
+                                    onPress={() => {
+                                        setEditMode(true);
+                                        setShowDropdown(false);
+                                    }}
+                                >
+                                    <Text className="text-white text-sm">Edit Comment</Text>
+                                </TouchableOpacity>
+                            )}
                             <TouchableOpacity
                                 className="px-4 py-2"
                                 onPress={() => {
                                     setShowDropdown(false);
                                 }}
                             >
-                                <Text className="text-white text-sm">Copy Prompt</Text>
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                className="px-4 py-2"
-                                onPress={() => {
-                                    setShowDropdown(false);
-                                }}
-                            >
-                                <Text className="text-white text-sm">Copy Prompt</Text>
+                                <Text className="text-white text-sm">Copy Comment</Text>
                             </TouchableOpacity>
                         </View>
                     )}
@@ -64,7 +72,16 @@ const Comment = ({
                         />
                     </TouchableOpacity>
                 </View>
-                <Text className="font-pregular font-sm text-white">{comment}</Text>
+                {editMode ? (
+                    <EditComment
+                        commentId={_id}
+                        refetch={refetch}
+                        ogComment={comment}
+                        setVisible={setEditMode}
+                    />
+                ) : (
+                    <Text className="font-pregular font-sm text-white">{comment}</Text>
+                )}
             </View>
         </View>
     );

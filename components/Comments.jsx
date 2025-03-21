@@ -24,7 +24,7 @@ const Comments = ({ isVisible, comments, refreshing, refetch, videoId }) => {
                 keyExtractor={(item) => item._id}
                 renderItem={({ item }) => (
                     <View className="mb-3">
-                        <Comment comment={item} />
+                        <Comment comment={item} refetch={refetch} />
                     </View>
                 )}
                 ListHeaderComponent={() => <CreateComment videoId={videoId} refetch={refetch} />}
