@@ -8,6 +8,7 @@ import InfoBox from "../../components/InfoBox";
 import EmptyState from "../../components/EmptyState";
 import VideoCard from "../../components/VideoCard";
 import DialogBox from "../../components/DialogBox.jsx";
+import Loader from "../../components/Loader.jsx";
 
 import {
     getUserPosts,
@@ -29,10 +30,22 @@ const Profile = () => {
 
     const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
-    const { data: posts, refetch: refetchPosts } = useAxios(getUserPosts);
-    const { data: bookmarks, refetch: refetchBookmarks } = useAxios(getBookmarksCount);
-    const { data: followersCount, refetch: refetchFollowers } = useAxios(followers);
-    const { data: followingCount, refetch: refetchFollowing } = useAxios(following);
+    const { data: posts, isLoading: loadingPosts, refetch: refetchPosts } = useAxios(getUserPosts);
+    const {
+        data: bookmarks,
+        isLoading: loadingBookmarks,
+        refetch: refetchBookmarks,
+    } = useAxios(getBookmarksCount);
+    const {
+        data: followersCount,
+        isLoading: loadingFollowers,
+        refetch: refetchFollowers,
+    } = useAxios(followers);
+    const {
+        data: followingCount,
+        isLoading: loadingFollowing,
+        refetch: refetchFollowing,
+    } = useAxios(following);
 
     const logout = async () => {
         await logoutUser();
@@ -67,6 +80,9 @@ const Profile = () => {
                 title="Are you sure you want to logout?"
                 onConfirm={logout}
                 closeDialog={closeDialog}
+            />
+            <Loader
+                visible={loadingBookmarks || loadingFollowers || loadingFollowing || loadingPosts}
             />
             {true ? (
                 <FlatList

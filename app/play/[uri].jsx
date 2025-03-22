@@ -20,7 +20,7 @@ const PlayVideo = () => {
     const [showComments, setShowComments] = useState(false);
 
     const { uri } = useLocalSearchParams();
-    const { data: posts, isLoading, refetch } = useAxios(getAllPosts);
+    const { data: posts, isLoading, refetch } = useAxios(getAllPosts, {}, 1, 10);
     const {
         data: comments,
         isLoading: loadingComments,
@@ -54,7 +54,7 @@ const PlayVideo = () => {
             <Loader visible={loadingVideo} />
             {video.length > 0 && (
                 <View className="mt-1">
-                    <VideoPlayer video={video[0]} />
+                    <VideoPlayer video={video[0]} refetch={refetchVideo} />
                 </View>
             )}
             {showComments ? (
@@ -67,28 +67,34 @@ const PlayVideo = () => {
                 />
             ) : (
                 <View>
-                    <TouchableOpacity
-                        className="mx-2 p-2 border border-gray-800 rounded-xl"
-                        onPress={() => {
-                            setShowComments(true);
-                        }}
-                    >
-                        <Text className="text-gray-100 font-pmedium mb-1">Comments</Text>
-                        {comments.length > 0 ? (
-                            <Comment comment={comments[0]} />
-                        ) : (
-                            <Text className="text-pregular text-gray-100">No comments</Text>
-                        )}
-                    </TouchableOpacity>
                     <FlatList
                         data={posts.filter((item) => item._id !== uri)}
                         keyExtractor={(item) => item._id}
                         renderItem={({ item }) => <VideoCard video={item} />}
                         ListHeaderComponent={() => (
-                            <View className="w-full my-3 px-4">
-                                <Text className="text-md text-white font-psemibold">
-                                    Recommended videos
-                                </Text>
+                            <View>
+                                <TouchableOpacity
+                                    className="mx-2 p-2 border border-gray-800 rounded-xl"
+                                    onPress={() => {
+                                        setShowComments(true);
+                                    }}
+                                >
+                                    <Text className="text-gray-100 font-pmedium mb-1">
+                                        Comments
+                                    </Text>
+                                    {comments.length > 0 ? (
+                                        <Comment comment={comments[0]} />
+                                    ) : (
+                                        <Text className="text-pregular text-gray-100">
+                                            No comments
+                                        </Text>
+                                    )}
+                                </TouchableOpacity>
+                                <View className="w-full my-3 px-4">
+                                    <Text className="text-md text-white font-psemibold">
+                                        Recommended videos
+                                    </Text>
+                                </View>
                             </View>
                         )}
                         ListEmptyComponent={() => (
